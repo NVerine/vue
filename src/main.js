@@ -16,6 +16,7 @@ axios.interceptors.request.use(function (config) {
   config.url = process.env.VUE_APP_API_URL+config.url;
   if(localStorage.token) {
     config.headers.common["Token"] = localStorage.token;
+    config.headers.common["Username"] = localStorage.username;
   }
 
   return config;
@@ -103,10 +104,19 @@ new Vue({
     $route(to) {
       if(to.name !== "error") this.$store.commit('showMessages');
       if(to.name === "logout") {
-        // temporario enquanto não crio uma tabela de sessões
-        // para controlar multiplas conexões
-        delete localStorage.token;
-        Routes.push({ name: "login"});
+        let token = localStorage.token;
+        axios
+            .post('/logoff', {token: token})
+            .then(response => {
+              // para controlar multiplas conexões
+              delete localStorage.token;
+              delete localStorage.username;
+              delete localStorage.data;
+              Routes.push({ name: "login"});
+            })
+            .catch(error => {
+              this.error = error.response.data.error;
+            })
       }
     }
   },

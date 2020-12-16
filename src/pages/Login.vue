@@ -76,6 +76,8 @@
                     .then(response => {
                         if(response.data.dados.token){
                             localStorage.token = response.data.dados.token;
+                            localStorage.username = response.data.dados.username;
+                            localStorage.data = response.data.dados.data;
                             this.$router.push({ name: "dashboard"});
                         }
                     })
