@@ -94,7 +94,6 @@
                             this.$set(self.rotas, r, response.data.dados[r]);
                         }
                         // precisa mapear o array de rotas
-                        console.log(this.dados);
                         for (const p in this.dados.permissoes){
                             let atual = this.dados.permissoes[p];
                             this.rotas[atual.rota] = true;
