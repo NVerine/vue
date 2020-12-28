@@ -3,13 +3,13 @@
     <div class="control">
       <div class="form-group bmd-form-group is-filled">
         <label :for="'campo_'+getNome()" class="bmd-label-floating label-select">{{ descricao || nome }}</label>
-        <input type="hidden" :id="'campo_'+getNome()" :name="getNome()" :value="model">
+        <input type="hidden" :id="'campo_'+getNome()" :name="getNome()" :value="value">
 
         <div class="btn-group bootstrap-select dropup">
           <button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" role="button" data-id="campo_tipo" title="Pessoa física">
             <div class="filter-option">
               <div class="filter-option-inner">
-                <div class="filter-option-inner-inner">{{ currentText }}</div>
+                <div class="filter-option-inner-inner">{{ text }}</div>
               </div>
             </div>
           </button>
@@ -37,28 +37,18 @@
 <script>
 export default {
   name: "Slct",
-  props: ['tamanho', 'nome', 'descricao', 'opt', 'modelo', 'prefixo', 'index'],
+  props: ['tamanho', 'nome', 'descricao', 'opt', 'modelo', 'prefixo', 'index', 'texto'],
   data () {
     return {
       options: this.opt,
       nomeInterno: this.nome.toLowerCase(),
-      currentText: '--',
-      model: this.modelo,
       search: ''
     }
   },
   methods: {
     onClick: function (item){
-      this.model = item.value;
-      this.currentText = item.text;
-      this.updateMother();
-    },
-    updateMother: function (){
-      const text = this.currentText;
-      const value = this.model;
-      const nome = this.getNome();
-      this.$emit('update', { nome, value, text});
-      this.$emit('update:modelo', value);
+      this.value = item.value;
+      this.text = item.text;
     },
     getNome: function () {
       let str = '';
@@ -72,8 +62,7 @@ export default {
       return str;
     },
     getActive: function (item){
-      if(item.value == this.model){
-        this.currentText = item.text;
+      if(item.value == this.modelo){
         return 'selected active';
       }
       return '';
@@ -81,19 +70,40 @@ export default {
   },
   computed: {
     getSearch: function () {
+      if(!this.options) return;
       const el = this;
       return this.options.filter(function (e) {
         return e.text.toString().toLowerCase().includes(el.search.toString().toLowerCase());
       });
+    },
+    value: {
+      get(){
+        return this.modelo;
+      },
+      set(val){
+        this.$emit('update:modelo', val);
+      }
+    },
+    text: {
+      get(){
+        if(this.texto) return this.texto;
+
+        for(var r in this.options){
+          if (this.options[r].value == this.modelo) {
+            return this.options[r].text.toString();
+          }
+        }
+        return '--';
+      },
+      set(val){
+        this.$emit('update:texto', val);
+      }
     }
   },
   watch: {
-    modelo: function (e) {
-      this.model = e;
-    },
     opt: function () {
       this.options = this.opt;
-    },
+    }
   },
 }
 </script>

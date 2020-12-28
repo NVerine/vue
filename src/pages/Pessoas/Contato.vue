@@ -3,14 +3,12 @@
     <div class="card-body">
       <div class="row" v-for="(linha, index) in contatos" :key="contatos[index].id">
         <div class="col-md-12 p-0">
-          <template v-if="!linha.id">
-            <!--                          <div class="btn btn-danger fa fa-times btn-list btn-sm btn-round btn-fab"-->
-            <!--                               @click="removeArray(dados.contato, index)"></div>-->
-          </template>
-          <template v-else>
-            <div class="btn btn-danger btn-list btn-sm btn-round btn-fab fa fa-times"
-                 @click="removeArray(contatos, index)"></div>
-          </template>
+
+          <div v-if="linha.exclui" class="btn btn-success fa fa-plus btn-list btn-sm btn-round btn-fab"
+               @click="linha.exclui = null" title="Manter item"></div>
+          <div v-else class="btn btn-danger fa fa-times btn-list btn-sm btn-round btn-fab"
+               @click="removeArray(contatos, index)" title="Excluir item"></div>
+
           <field prefixo="contato" :index="index" nome="id" tipo="hidden" :modelo.sync="linha.id"></field>
           <field prefixo="contato" :index="index" nome="Nome" :modelo.sync="linha.nome" tamanho="4"></field>
           <field prefixo="contato" :index="index" descricao="E-mail" nome="email" tipo="email"

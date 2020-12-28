@@ -75,8 +75,6 @@ export default {
           format: 'DD-MM-YYYY LT',
           icons: dateicons,
           locale: 'pt-br'
-        }).on('dp.change', function (e) {
-            ele.onChange(e)
         }).blur(function () {
             $(this).closest(".form-group").addClass("is-filled");
         });
@@ -86,8 +84,6 @@ export default {
           format: 'LT',
           icons: dateicons,
           locale: 'pt-br'
-        }).on('dp.change', function (e) {
-            ele.onChange(e)
         }).blur(function () {
           $(this).closest(".form-group").addClass("is-filled");
         });
@@ -97,8 +93,6 @@ export default {
           format: 'DD-MM-YYYY',
           icons: dateicons,
           locale: 'pt-br'
-        }).on('dp.change', function (e) {
-            ele.onChange(e)
         }).blur(function () {
             $(this).closest(".form-group").addClass("is-filled");
         });

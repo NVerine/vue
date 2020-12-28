@@ -1,11 +1,14 @@
 <template>
   <div class="card m-0 mb-2 p-2 p-md-0" id="dynamic_enderecos">
-    {{enderecos}}
     <div class="card-body">
       <div class="row" v-for="(linha, index) in enderecos" :key="enderecos[index].id">
         <div class="col-md-12 p-0">
-          <div class="btn btn-danger fa fa-times btn-list btn-sm btn-round btn-fab"
+
+          <div v-if="linha.exclui" class="btn btn-success fa fa-plus btn-list btn-sm btn-round btn-fab"
+               @click="linha.exclui = null" title="Manter item"></div>
+          <div v-else class="btn btn-danger fa fa-times btn-list btn-sm btn-round btn-fab"
                @click="removeArray(enderecos, index)" title="Excluir item"></div>
+
           <field prefixo="endereco" :index="index" nome="id" tipo="hidden" :modelo.sync="linha.id"></field>
           <div class="mt-3 col-md-2">
             <div class="control">
@@ -19,7 +22,7 @@
             </div>
           </div>
           <estados-cidades prefixo="endereco" :index="index"
-                           :uf.sync="linha.uf" :ibge-cidade.sync="linha.ibge_cidade"
+                           :uf.sync="linha.uf" :ibge-cidade.sync="linha.ibgeCidade"
                             :nome_estado.sync="linha.estado" :nome_cidade.sync="linha.cidade">
           </estados-cidades>
           <field prefixo="endereco" :index="index" nome="Bairro" :modelo.sync="linha.bairro" tamanho="4"></field>
@@ -55,7 +58,7 @@ export default {
         estado: null,
         cidade: null,
         //ibge_estado: null,
-        ibge_cidade: null,
+        ibgeCidade: null,
         bairro: null,
         logradouro: null,
         complemento: null,
@@ -77,9 +80,15 @@ export default {
             .get('https://viacep.com.br/ws/' + cep + '/json/')
             .then(response => {
               if (response.data) {
+                for (let r in this.$store.state.pessoas.estados){
+                  if(this.$store.state.pessoas.estados[r].value == response.data.uf){
+                    this.enderecos[i].estado = this.$store.state.pessoas.estados[r].text;
+                    break;
+                  }
+                }
                 this.enderecos[i].bairro = response.data.bairro;
                 this.enderecos[i].cidade = response.data.localidade;
-                this.enderecos[i].ibge_cidade = response.data.ibge;
+                this.enderecos[i].ibgeCidade = response.data.ibge;
                 this.enderecos[i].uf = response.data.uf;
                 this.enderecos[i].complemento = response.data.complemento;
                 this.enderecos[i].logradouro = response.data.logradouro;

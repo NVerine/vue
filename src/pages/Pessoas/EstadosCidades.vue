@@ -3,9 +3,9 @@
     <field :prefixo="prefixo" :index="index" nome="nome_estado" tipo="hidden" :modelo="nomeEstado"></field>
     <field :prefixo="prefixo" :index="index" nome="nome_cidade" tipo="hidden" :modelo="nomeCidade"></field>
     <slct :prefixo="prefixo" :index="index" tamanho="3" nome="Estado"
-          :modelo="uf" :opt="listaEstados" @update="updateEstado($event)"></slct>
+          :modelo.sync="currentUf" :texto.sync="nomeEstado" :opt="listaEstados"></slct>
     <slct :prefixo="prefixo" :index="index" tamanho="3" nome="municipio" descricao="Município"
-          :modelo="ibgeCidade" :opt="listaCidades[currentUf]" @update="updateCidade($event)"></slct>
+          :modelo.sync="currentCt" :texto.sync="nomeCidade" :opt="listaCidades[currentUf]" ></slct>
   </div>
 </template>
 
@@ -22,23 +22,9 @@ export default {
   props: ['uf', 'ibgeCidade', 'nome_estado', 'nome_cidade', 'prefixo', 'index'],
   data() {
     return {
-      currentUf: this.uf,
-      nomeEstado: this.nome_estado,
-      nomeCidade: this.nome_cidade
     }
   },
   methods: {
-    updateEstado: function(e){
-      console.log(e);
-      this.nomeEstado = e.text;
-      this.$emit('update:nome_estado', e.text);
-      this.$emit('update:uf', e.value);
-    },
-    updateCidade: function (e){
-      this.nomeCidade = e.text;
-      this.$emit('update:nome_cidade', e.text);
-      //this.$emit('update:ibgeCidade', e.value);
-    },
     getEstados: function () {
       if(this.$store.state.pessoas.estados.length > 0) return Promise.resolve(false);
 
@@ -101,6 +87,40 @@ export default {
     });
   },
   computed: {
+    currentUf: {
+      get(){
+        return this.uf;
+      },
+      set(val){
+        this.currentCt = null;
+        this.nomeCidade = '--';
+        this.$emit('update:uf', val);
+      }
+    },
+    currentCt: {
+      get(){
+        return this.ibgeCidade;
+      },
+      set(val){
+        this.$emit('update:ibgeCidade', val);
+      }
+    },
+    nomeEstado: {
+      get(){
+        return this.nome_estado;
+      },
+      set(val){
+        this.$emit('update:nome_estado', val);
+      }
+    },
+    nomeCidade: {
+      get(){
+        return this.nome_cidade;
+      },
+      set(val){
+        this.$emit('update:nome_cidade', val);
+      }
+    },
     listaEstados() {
       return this.$store.state.pessoas.estados;
     },
