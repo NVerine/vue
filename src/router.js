@@ -13,6 +13,8 @@ import EditaTest from "@/pages/Test/EditaTest";
 import PesquisaTest from "@/pages/Test/PesquisaTest";
 import EditaQuestion from "@/pages/Test/EditaQuestion";
 import PesquisaQuestion from "@/pages/Test/PesquisaQuestion";
+import EditaNCM from "@/pages/Trib/EditaNCM";
+import PesquisaNCM from "@/pages/Trib/PesquisaNCM";
 
 // pages do sistema
 import PessoasPesquisa from "./pages/Pessoas/PesquisaPessoas";
@@ -141,6 +143,22 @@ const private_routes = [
   {path:'/p/cfop/:id', name:'cfop_edita',
     components: {
       default: EditaCFOP,
+      header: MainNavbar,
+      menu: MainMenu,
+      footer: MainFooter
+    }
+  },
+  {path:'/p/ncm/', name:'ncm_pesquisa',
+    components: {
+      default: PesquisaNCM,
+      header: MainNavbar,
+      menu: MainMenu,
+      footer: MainFooter
+    }
+  },
+  {path:'/p/ncm/:id', name:'ncm_edita',
+    components: {
+      default: EditaNCM,
       header: MainNavbar,
       menu: MainMenu,
       footer: MainFooter

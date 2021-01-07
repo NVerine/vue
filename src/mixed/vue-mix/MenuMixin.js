@@ -33,6 +33,11 @@ const MenuMixin = {
                             nome: "CST",
                             rotaApi: "api_trib_cst_index",
                             rotasVue: ["cst_edita"]
+                        },
+                        ncm_pesquisa: {
+                            nome: "NCM",
+                            rotaApi: "api_trib_ncm_index",
+                            rotasVue: ["ncm_edita"]
                         }
                     }
                 },

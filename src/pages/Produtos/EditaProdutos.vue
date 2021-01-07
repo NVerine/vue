@@ -31,6 +31,7 @@
                 <div class="col-md-12">
                   <button type="button" class="btn btn-white btn-block" data-toggle="modal" data-target="#modal_familia_produtos">{{familia_cod}} - {{ familia_text }}</button>
                 </div>
+                {{dados}}
                 <div class="col-md-12 p-0">
                   <field nome="cod_barras" descricao="Cód. barras / ISBN" :modelo.sync="dados.nome" tamanho="4"></field>
                   <field nome="Nome" :modelo.sync="dados.nome" tamanho="8"></field>
@@ -59,7 +60,7 @@
         </div>
       </div>
       <div slot="footer">
-        <button type="button" class="btn" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-danger mr-1" data-dismiss="modal">Fechar</button>
         <button type="button" class="btn btn-success" data-dismiss="modal" @click="aplicaFamilia">Aplicar mudanças</button>
       </div>
     </modal>
@@ -107,6 +108,10 @@
             }
         },
         mounted() {
+          // carrega informações iniciais da página
+          this.getDados('/api/produto/' + this.$route.params.id);
+
+
             axios
                 .get("/api/familia_produtos/list")
                 .then(response => {
