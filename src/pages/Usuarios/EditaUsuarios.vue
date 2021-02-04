@@ -59,78 +59,78 @@
 </template>
 
 <script>
-    import slct from "../../components/slct";
-    import field from "../../components/field";
-    import binaryInput from "../../components/binaryInput";
-    import axios from 'axios';
-    import autocomplete from "../../components/autocomplete";
-    import tabLink from "../../components/tabLink";
-    import EditaMixins from "../../mixed/vue-mix/EditaMixin";
-    import VMasker from 'vanilla-masker';
-    window.VMasker = window.VMasker = VMasker;
+import slct from "../../components/slct";
+import field from "../../components/field";
+import binaryInput from "../../components/binaryInput";
+import axios from "axios";
+import autocomplete from "../../components/autocomplete";
+import tabLink from "../../components/tabLink";
+import EditaMixins from "../../mixed/vue-mix/EditaMixin";
+import VMasker from "vanilla-masker";
+window.VMasker = window.VMasker = VMasker;
 
-    export default {
-        name: "UsuariosEdita",
-        components: { slct, field, binaryInput, autocomplete, tabLink },
-        mixins: [EditaMixins],
-        data () {
-            return {
-                id: this.$route.params.id,
-                dados: { pessoa: {id: null, nome: null}},
-                pessoa_existe: true,
-                listaGrupos: [],
-            }
-        },
-        methods: {
-            makeid: function () {
-                let result           = '';
-                let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-                let charactersLength = characters.length;
-                for ( let i = 0; i < 7; i++ ) {
-                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-                }
-                console.log(this.dados);
-                this.$set(this.dados, 'senha', result);
-                this.$set(this.dados, 'senha2', result);
-                prompt("Copie a nova senha", this.dados.senha);
-            }
-        },
-        mounted () {
-            // carrega informações iniciais da página
-
-            this.getDados('/api/user/' + this.$route.params.id)
-                .then(() => {
-                    if(this.dados.grupo) this.dados.grupo = this.dados.grupo.id;
-                });
-
-            // carrega lista de grupos
-            axios
-                .get('/api/permissoes/lista')
-                .then(response => {
-                    for (const i in response.data.dados){
-                        this.listaGrupos.push({value: response.data.dados[i].id, text: response.data.dados[i].nome});
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.errored = true
-                })
-                .finally(() => this.loading = false);
-        },
-        watch: {
-            'dados.telefone': function () {
-                console.log(this.dados);
-                if(!this.dados.telefone) {
-                    return;
-                }
-                this.$set(this.dados, 'telefone', VMasker.toPattern(this.dados.telefone.toString(), "(99)99999-9999"));
-            },
-            'dados.cpf': function () {
-                if(!this.dados.cpf) {
-                    return;
-                }
-                this.$set(this.dados, 'cpf', VMasker.toPattern(this.dados.cpf.toString(), "999.999.999-99"));
-            }
-        }
+export default {
+  name: "UsuariosEdita",
+  components: { slct, field, binaryInput, autocomplete, tabLink },
+  mixins: [EditaMixins],
+  data () {
+    return {
+      id: this.$route.params.id,
+      dados: { pessoa: {id: null, nome: null}},
+      pessoa_existe: true,
+      listaGrupos: [],
+    };
+  },
+  methods: {
+    makeid: function () {
+      let result           = "";
+      let characters       = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      let charactersLength = characters.length;
+      for ( let i = 0; i < 7; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      console.log(this.dados);
+      this.$set(this.dados, "senha", result);
+      this.$set(this.dados, "senha2", result);
+      prompt("Copie a nova senha", this.dados.senha);
     }
+  },
+  mounted () {
+    // carrega informações iniciais da página
+
+    this.getDados("/api/user/" + this.$route.params.id)
+      .then(() => {
+        if(this.dados.grupo) this.dados.grupo = this.dados.grupo.id;
+      });
+
+    // carrega lista de grupos
+    axios
+      .get("/api/permissoes/lista")
+      .then(response => {
+        for (const i in response.data.dados){
+          this.listaGrupos.push({value: response.data.dados[i].id, text: response.data.dados[i].nome});
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        this.errored = true;
+      })
+      .finally(() => this.loading = false);
+  },
+  watch: {
+    "dados.telefone": function () {
+      console.log(this.dados);
+      if(!this.dados.telefone) {
+        return;
+      }
+      this.$set(this.dados, "telefone", VMasker.toPattern(this.dados.telefone.toString(), "(99)99999-9999"));
+    },
+    "dados.cpf": function () {
+      if(!this.dados.cpf) {
+        return;
+      }
+      this.$set(this.dados, "cpf", VMasker.toPattern(this.dados.cpf.toString(), "999.999.999-99"));
+    }
+  }
+};
 </script>

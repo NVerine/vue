@@ -33,8 +33,8 @@
 </template>
 
 <script>
-    export default {
-        name: "NotifyCard",
-        props: ["titulo", "tipo", "retorno"]
-    }
+export default {
+  name: "NotifyCard",
+  props: ["titulo", "tipo", "retorno"]
+};
 </script>

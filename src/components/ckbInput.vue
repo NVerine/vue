@@ -19,16 +19,16 @@
 <script>
 export default {
   name: "CkbRadio",
-  props : ['nome', 'descricao', 'modelo'],
+  props : ["nome", "descricao", "modelo"],
   data() {
     return{
       nomeInterno: this.nome.toLowerCase()
-    }
+    };
   },
   methods: {
     onChange: function (event) {
-      this.$emit('update:modelo', event.target.checked);
+      this.$emit("update:modelo", event.target.checked);
     },
   },
-}
+};
 </script>

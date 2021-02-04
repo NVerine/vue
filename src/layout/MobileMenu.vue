@@ -40,19 +40,19 @@
 </template>
 
 <script>
-  import MenuMixin from "../mixed/vue-mix/MenuMixin";
-    export default {
-        name: "mobile-menu",
-        mixins: [MenuMixin],
-        watch:{
-            $route (){
-                $('.main-menu .collapse.show').each(function(){
-                    $(this).collapse('hide');
-                });
-                $("#navbarDropdown").dropdown("toggle");
-            }
-        },
-    };
+import MenuMixin from "../mixed/vue-mix/MenuMixin";
+export default {
+  name: "mobile-menu",
+  mixins: [MenuMixin],
+  watch:{
+    $route (){
+      $(".main-menu .collapse.show").each(function(){
+        $(this).collapse("hide");
+      });
+      $("#navbarDropdown").dropdown("toggle");
+    }
+  },
+};
 </script>
 
 <style scoped>

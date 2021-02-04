@@ -23,33 +23,33 @@
 <script>
 export default {
   name: "BinaryInput",
-  props : ['nome', 'descricao', 'modelo', 'tamanho', 'prefixo', 'index', 'classe'],
+  props : ["nome", "descricao", "modelo", "tamanho", "prefixo", "index", "classe"],
   data() {
     return{
       nomeInterno: this.nome.toLowerCase(),
       model: this.modelo,
-    }
+    };
   },
   methods: {
     onChange: function (event) {
-      this.$emit('update:modelo', event.target.checked);
+      this.$emit("update:modelo", event.target.checked);
     },
     getNome: function () {
-      let str = '';
+      let str = "";
       if(this.prefixo){
-        str = this.prefixo+'_';
+        str = this.prefixo+"_";
       }
       str += this.nomeInterno;
       if(this.index || this.index === 0){
-        str += '_'+this.index;
+        str += "_"+this.index;
       }
       return str;
     },
 
     getClass: function (){
       if(this.classe) return this.classe;
-      const str =  this.tamanho ? 'col-md-' + this.tamanho : 'col-md-12';
-      return str + ' mt-4';
+      const str =  this.tamanho ? "col-md-" + this.tamanho : "col-md-12";
+      return str + " mt-4";
     }
   },
   watch: {
@@ -57,5 +57,5 @@ export default {
       this.model = e;
     }
   }
-}
+};
 </script>

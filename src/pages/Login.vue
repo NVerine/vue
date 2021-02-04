@@ -57,36 +57,36 @@
 </template>
 
 <script>
-  import axios from 'axios';
+import axios from "axios";
 
-    export default {
-        name: "Login",
-        data: function(){
-            return {
-                username: null,
-                password: null,
-                error: null
-            }
-        },
-        methods: {
-            enviar: function() {
-                let dados = {username: this.username, password: this.password};
-                axios
-                    .post('/login', dados)
-                    .then(response => {
-                        if(response.data.dados.token){
-                            localStorage.token = response.data.dados.token;
-                            localStorage.username = response.data.dados.username;
-                            localStorage.data = response.data.dados.data;
-                            this.$router.push({ name: "dashboard"});
-                        }
-                    })
-                    .catch(error => {
-                        this.error = error.response.data.error;
-                    })
-            }
-        }
+export default {
+  name: "Login",
+  data: function(){
+    return {
+      username: null,
+      password: null,
+      error: null
+    };
+  },
+  methods: {
+    enviar: function() {
+      let dados = {username: this.username, password: this.password};
+      axios
+        .post("/login", dados)
+        .then(response => {
+          if(response.data.dados.token){
+            localStorage.token = response.data.dados.token;
+            localStorage.username = response.data.dados.username;
+            localStorage.data = response.data.dados.data;
+            this.$router.push({ name: "dashboard"});
+          }
+        })
+        .catch(error => {
+          this.error = error.response.data.error;
+        });
     }
+  }
+};
 </script>
 
 <style scoped>

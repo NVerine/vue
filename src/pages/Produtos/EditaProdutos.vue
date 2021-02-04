@@ -48,56 +48,56 @@
 </template>
 
 <script>
-  import axios from 'axios';
-  import EditaMixins from "../../mixed/vue-mix/EditaMixin";
-  import field from "../../components/field";
-  import slct from "@/components/slct";
-  import VMasker from "vanilla-masker";
+import axios from "axios";
+import EditaMixins from "../../mixed/vue-mix/EditaMixin";
+import field from "../../components/field";
+import slct from "@/components/slct";
+import VMasker from "vanilla-masker";
 
-  export default {
-    name: "ProdutosEdita",
-    components: { field, slct },
-    mixins: [EditaMixins],
-    data () {
-        return {
-            id: this.$route.params.id,
-            familia_lista: [],
+export default {
+  name: "ProdutosEdita",
+  components: { field, slct },
+  mixins: [EditaMixins],
+  data () {
+    return {
+      id: this.$route.params.id,
+      familia_lista: [],
+    };
+  },
+  mounted() {
+    // carrega informações iniciais da página
+    this.getDados("/api/produto/" + this.$route.params.id);
+    axios
+      .get("/api/familia_produtos/list")
+      .then(response => {
+        for (const i in response.data.dados){
+          let temp = {
+            value: response.data.dados[i].id,
+            text: response.data.dados[i].codigo + ") " + response.data.dados[i].nome
+          };
+          this.familia_lista.push(temp);
         }
-    },
-    mounted() {
-      // carrega informações iniciais da página
-      this.getDados('/api/produto/' + this.$route.params.id);
-      axios
-        .get("/api/familia_produtos/list")
-        .then(response => {
-          for (const i in response.data.dados){
-            let temp = {
-              value: response.data.dados[i].id,
-              text: response.data.dados[i].codigo + ") " + response.data.dados[i].nome
-            }
-            this.familia_lista.push(temp);
-          }
-        })
-        .catch(error => {
-            console.log(error);
-            this.errored = true
-        })
-        .finally(() => this.loading = false);
-    },
-    computed: {
-      familia: {
-        get(){
-          return (this.dados.familia) ? this.dados.familia.id : null;
-        },
-        set(val){
-          this.dados.familia.id = val;
-        }
+      })
+      .catch(error => {
+        console.log(error);
+        this.errored = true;
+      })
+      .finally(() => this.loading = false);
+  },
+  computed: {
+    familia: {
+      get(){
+        return (this.dados.familia) ? this.dados.familia.id : null;
       },
-    },
-    watch: {
-      'dados.preco': function () {
-        this.dados.preco = VMasker.toMoney(this.dados.preco);
+      set(val){
+        this.dados.familia.id = val;
       }
     },
-  }
+  },
+  watch: {
+    "dados.preco": function () {
+      this.dados.preco = VMasker.toMoney(this.dados.preco);
+    }
+  },
+};
 </script>

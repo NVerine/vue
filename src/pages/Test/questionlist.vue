@@ -29,28 +29,28 @@
 
 <script>
 import binaryInput from "@/components/binaryInput";
-import draggable from 'vuedraggable';
+import draggable from "vuedraggable";
 import field from "@/components/field";
 
 export default {
   name: "questionlist",
   components: { binaryInput, draggable, field},
-  props : ['lista', 'ativos'],
+  props : ["lista", "ativos"],
   methods: {
     expandir: function (item) {
-      this.$set(item, 'expand', !item.expand);
+      this.$set(item, "expand", !item.expand);
     },
     onMoveCallback: function(evt){
-      // reordenação
+      // reordenaï¿½ï¿½o
       for (let i=0; evt.to.children.length > i; i++) {
-        $(evt.to.children[i]).find("[id^='ordem']").val(i+1)[0].dispatchEvent(new Event('input'));
+        $(evt.to.children[i]).find("[id^='ordem']").val(i+1)[0].dispatchEvent(new Event("input"));
       }
       if(evt.from !== evt.to){
-        $(evt.item).find('input:checkbox').click();
+        $(evt.item).find("input:checkbox").click();
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>

@@ -3,10 +3,10 @@
 </template>
 
 <script>
-  import notifyCard from "../layout/NotifyCard";
+import notifyCard from "../layout/NotifyCard";
 
-    export default {
-        name: "Error",
-        components: {notifyCard}
-    }
+export default {
+  name: "Error",
+  components: {notifyCard}
+};
 </script>

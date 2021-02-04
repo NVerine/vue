@@ -96,8 +96,8 @@
 </template>
 
 <script>
-  import MobileMenu from "./MobileMenu";
-  export default {
-      components: { MobileMenu }
-  };
+import MobileMenu from "./MobileMenu";
+export default {
+  components: { MobileMenu }
+};
 </script>

@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import Tabela from '../../components/tabela';
+import Tabela from "../../components/tabela";
 import slct from "../../components/slct";
 import tabLink from "../../components/tabLink";
 import PesquisaMixin from "../../mixed/vue-mix/PesquisaMixin";
@@ -54,7 +54,7 @@ export default {
   data: function(){
     return{
       urlApi: "/api/questions/"
-    }
+    };
   }
-}
+};
 </script>

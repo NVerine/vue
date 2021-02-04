@@ -56,55 +56,55 @@
 </template>
 
 <script>
-    import field from "../../components/field";
-    import axios from 'axios';
-    import EditaMixins from "../../mixed/vue-mix/EditaMixin";
+import field from "../../components/field";
+import axios from "axios";
+import EditaMixins from "../../mixed/vue-mix/EditaMixin";
 
-    export default {
-        name: "PermissoesEdita",
-        components: { field },
-        mixins: [EditaMixins],
-        data () {
-            return {
-                dados: {
-                    permissoes: {}
-                },
-                rotas: {},
-                verdadeiro: true
+export default {
+  name: "PermissoesEdita",
+  components: { field },
+  mixins: [EditaMixins],
+  data () {
+    return {
+      dados: {
+        permissoes: {}
+      },
+      rotas: {},
+      verdadeiro: true
+    };
+  },
+  methods: {
+    beforeEnviar: function () {
+      this.dados.id = this.dados.id || 0;
+      this.dados.permissoes = this.rotas;
+      this.enviar("/api/permissoes/");
+    },
+  },
+  mounted () {
+    // carrega informações iniciais da página
+    this.getDados("/api/permissoes/" + this.$route.params.id)
+      .then(() => {
+        // carrega toda a lista de rotas EXISTENTES no sistema
+        axios
+          .get("/api/permissoes/rotas")
+          .then(response => {
+            // para a reatividade funcionar precisa disso
+            let self = this;
+            for (const r in response.data.dados){
+              this.$set(self.rotas, r, response.data.dados[r]);
             }
-        },
-        methods: {
-            beforeEnviar: function () {
-                this.dados.id = this.dados.id || 0;
-                this.dados.permissoes = this.rotas;
-                this.enviar('/api/permissoes/');
-            },
-        },
-        mounted () {
-            // carrega informações iniciais da página
-            this.getDados('/api/permissoes/' + this.$route.params.id)
-                .then(() => {
-                // carrega toda a lista de rotas EXISTENTES no sistema
-                axios
-                    .get('/api/permissoes/rotas')
-                    .then(response => {
-                        // para a reatividade funcionar precisa disso
-                        let self = this;
-                        for (const r in response.data.dados){
-                            this.$set(self.rotas, r, response.data.dados[r]);
-                        }
-                        // precisa mapear o array de rotas
-                        for (const p in this.dados.permissoes){
-                            let atual = this.dados.permissoes[p];
-                            this.rotas[atual.rota] = true;
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        this.errored = true
-                    })
-                    .finally(() => this.loading = false);
-            });
-        }
-    }
+            // precisa mapear o array de rotas
+            for (const p in this.dados.permissoes){
+              let atual = this.dados.permissoes[p];
+              this.rotas[atual.rota] = true;
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            this.errored = true;
+          })
+          .finally(() => this.loading = false);
+      });
+  }
+};
 </script>

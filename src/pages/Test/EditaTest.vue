@@ -81,8 +81,8 @@ export default {
     return {
       disciplina: false,
       questions: [],
-      disciplinas: [{value: '', text: ''}]
-    }
+      disciplinas: [{value: "", text: ""}]
+    };
   },
   methods: {
     getQuestions: function (active) {
@@ -108,12 +108,12 @@ export default {
     },
     customEnviar: function () {
       this.dados.questions = this.getQuestions(true);
-      this.enviar('/api/test/');
+      this.enviar("/api/test/");
     }
   },
   mounted() {
     // carrega informações iniciais da página
-    this.getDados('/api/test/' + this.$route.params.id).then(() => {
+    this.getDados("/api/test/" + this.$route.params.id).then(() => {
       let actives = [];
       for(let i in this.dados.quizQuestions){
         actives[this.dados.quizQuestions[i].question.id] = {
@@ -124,37 +124,37 @@ export default {
 
       // carrega lista de questoes
       axios
-          .get('/api/questions/')
-          .then(response => {
-            let temp = [];
-            for (const i in response.data.dados){
-              if(response.data.dados[i].disciplina){
-                temp[response.data.dados[i].disciplina.id] = response.data.dados[i].disciplina.name;
-                if(response.data.dados[i].disciplina.segmento){
-                  temp[response.data.dados[i].disciplina.id] = response.data.dados[i].disciplina.segmento + ' - ' + temp[response.data.dados[i].disciplina.id]
-                }
+        .get("/api/questions/")
+        .then(response => {
+          let temp = [];
+          for (const i in response.data.dados){
+            if(response.data.dados[i].disciplina){
+              temp[response.data.dados[i].disciplina.id] = response.data.dados[i].disciplina.name;
+              if(response.data.dados[i].disciplina.segmento){
+                temp[response.data.dados[i].disciplina.id] = response.data.dados[i].disciplina.segmento + " - " + temp[response.data.dados[i].disciplina.id];
               }
-              if(actives[response.data.dados[i].id]){
-                this.$set(response.data.dados[i], 'ordem', actives[response.data.dados[i].id].ordem);
-                this.$set(response.data.dados[i], 'weight', actives[response.data.dados[i].id].weight);
-                this.$set(response.data.dados[i], 'active', true);
-              }
-              else{
-                this.$set(response.data.dados[i], 'active', false);
-              }
+            }
+            if(actives[response.data.dados[i].id]){
+              this.$set(response.data.dados[i], "ordem", actives[response.data.dados[i].id].ordem);
+              this.$set(response.data.dados[i], "weight", actives[response.data.dados[i].id].weight);
+              this.$set(response.data.dados[i], "active", true);
+            }
+            else{
+              this.$set(response.data.dados[i], "active", false);
+            }
 
-              this.questions.push(response.data.dados[i]);
-            }
-            for (let i in temp){
-              this.disciplinas.push({value: i, text: temp[i]});
-            }
-          })
-          .catch(error => {
-            console.log(error);
-            this.errored = true
-          })
-          .finally(() => this.loading = false);
+            this.questions.push(response.data.dados[i]);
+          }
+          for (let i in temp){
+            this.disciplinas.push({value: i, text: temp[i]});
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          this.errored = true;
+        })
+        .finally(() => this.loading = false);
     });
   }
-}
+};
 </script>

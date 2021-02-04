@@ -41,42 +41,42 @@
 </template>
 
 <script>
-  import MenuMixin from "../mixed/vue-mix/MenuMixin";
-    export default {
-        name: "MainMenu",
-        mixins: [ MenuMixin ],
-        methods: {
-            toggleActive: function (path, reloaded = false) {
-                $("#main-menu .nav-item.active").removeClass("active");
-                if(path.toString() === "/"){
-                    return;
-                }
+import MenuMixin from "../mixed/vue-mix/MenuMixin";
+export default {
+  name: "MainMenu",
+  mixins: [ MenuMixin ],
+  methods: {
+    toggleActive: function (path, reloaded = false) {
+      $("#main-menu .nav-item.active").removeClass("active");
+      if(path.toString() === "/"){
+        return;
+      }
 
-                let active = $("#main-menu [href*='"+path+"']")[0];
-                $(active).parents(".nav-item").addClass("active");
+      let active = $("#main-menu [href*='"+path+"']")[0];
+      $(active).parents(".nav-item").addClass("active");
 
-                setTimeout(function () {
-                    if(!reloaded){
-                        $("#main-menu .nav-item:not(.active) .collapse").collapse("hide");
-                    }
-                    else{
-                        $("#main-menu .nav-item.active .collapse").collapse("show");
-                    }
-                }, 500);
-            },
-        },
-        watch:{
-            $route (to){
-                this.toggleActive(to.path);
-            }
-        },
-        updated: function () {
-            this.$nextTick(function () {
-                this.toggleActive(this.$router.currentRoute.path, true);
-            })
-        },
-        created() {
-            this.$store.dispatch('loadPermissoes');
+      setTimeout(function () {
+        if(!reloaded){
+          $("#main-menu .nav-item:not(.active) .collapse").collapse("hide");
         }
+        else{
+          $("#main-menu .nav-item.active .collapse").collapse("show");
+        }
+      }, 500);
+    },
+  },
+  watch:{
+    $route (to){
+      this.toggleActive(to.path);
     }
+  },
+  updated: function () {
+    this.$nextTick(function () {
+      this.toggleActive(this.$router.currentRoute.path, true);
+    });
+  },
+  created() {
+    this.$store.dispatch("loadPermissoes");
+  }
+};
 </script>

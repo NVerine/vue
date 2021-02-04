@@ -49,11 +49,11 @@ export default {
   data: function(){
     return{
       //tipoRetorno: 4
-    }
+    };
   },
   mounted () {
     // carrega informações iniciais da página
-    this.getDados('/api/cfop/' + this.$route.params.id);
+    this.getDados("/api/cfop/" + this.$route.params.id);
   }
-}
+};
 </script>

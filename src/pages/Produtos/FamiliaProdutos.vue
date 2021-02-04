@@ -76,74 +76,74 @@
 </template>
 
 <script>
-    import EditaMixins from "../../mixed/vue-mix/EditaMixin";
-    import CommonMixin from "../../mixed/vue-mix/CommonMixin";
-    import tabLink from "../../components/tabLink";
+import EditaMixins from "../../mixed/vue-mix/EditaMixin";
+import CommonMixin from "../../mixed/vue-mix/CommonMixin";
+import tabLink from "../../components/tabLink";
 
-    export default {
-        name: "FamiliaProdutosEdita",
-        mixins: [EditaMixins, CommonMixin],
-        components: {tabLink},
-        data () {
-            return {
-                nome: 'raiz',
-            }
-        },
-        methods: {
-            getTamanho: function(str){
-                const charSize = 7;
-                const tamanho = (str.length  * charSize) + 30;
-                return "margin-left:"+tamanho+"px;";
-            },
-            addFilho: function(index){
-                let codigos = [];
-                let novoCodigo = "";
-                if(index === false){
-                    codigos = this.dados.itens.filter(function (item) {
-                        return item.codigo.length === 2
-                    });
-                }
-                else{
-                    const codigo = this.dados.itens[index].codigo;
-                    novoCodigo = codigo + ".";
+export default {
+  name: "FamiliaProdutosEdita",
+  mixins: [EditaMixins, CommonMixin],
+  components: {tabLink},
+  data () {
+    return {
+      nome: "raiz",
+    };
+  },
+  methods: {
+    getTamanho: function(str){
+      const charSize = 7;
+      const tamanho = (str.length  * charSize) + 30;
+      return "margin-left:"+tamanho+"px;";
+    },
+    addFilho: function(index){
+      let codigos = [];
+      let novoCodigo = "";
+      if(index === false){
+        codigos = this.dados.itens.filter(function (item) {
+          return item.codigo.length === 2;
+        });
+      }
+      else{
+        const codigo = this.dados.itens[index].codigo;
+        novoCodigo = codigo + ".";
 
-                    codigos = this.dados.itens.filter(function (item) {
-                        if((codigo.length + 3) !== item.codigo.length){
-                            return false;
-                        }
-                        return item.codigo.substring(0, codigo.length) === codigo;
-                    });
-                }
+        codigos = this.dados.itens.filter(function (item) {
+          if((codigo.length + 3) !== item.codigo.length){
+            return false;
+          }
+          return item.codigo.substring(0, codigo.length) === codigo;
+        });
+      }
 
-                let ultimo = codigos[codigos.length-1];
-                if(!ultimo){
-                    novoCodigo += "01";
-                }
-                else{
-                    let temp = ultimo.codigo.split(".");
-                    let temp2 = parseInt(temp[temp.length-1]);
-                    novoCodigo += this.insereZero(temp2+1, 2);
-                }
-                const novoItem= {
-                    codigo: novoCodigo,
-                    nome: "Novo filho",
-                };
-                this.dados.itens.splice(index+1, 0, novoItem);
-                this.enviar('/api/familia_produtos/');
-            },
-            removeItem: function (index) {
-                this.dados.itens[index].exclui = true;
-                this.enviar('/api/familia_produtos/');
-            }
-        },
-        created() {
-            this.getDados('/api/familia_produtos/')
-                .then(() => {
-                    const temp = this.dados;
-                    this.dados = {};
-                    this.$set(this.dados, 'itens', temp);
-                    console.log(this.dados);
-                });
-        }
+      let ultimo = codigos[codigos.length-1];
+      if(!ultimo){
+        novoCodigo += "01";
+      }
+      else{
+        let temp = ultimo.codigo.split(".");
+        let temp2 = parseInt(temp[temp.length-1]);
+        novoCodigo += this.insereZero(temp2+1, 2);
+      }
+      const novoItem= {
+        codigo: novoCodigo,
+        nome: "Novo filho",
+      };
+      this.dados.itens.splice(index+1, 0, novoItem);
+      this.enviar("/api/familia_produtos/");
+    },
+    removeItem: function (index) {
+      this.dados.itens[index].exclui = true;
+      this.enviar("/api/familia_produtos/");
     }
+  },
+  created() {
+    this.getDados("/api/familia_produtos/")
+      .then(() => {
+        const temp = this.dados;
+        this.dados = {};
+        this.$set(this.dados, "itens", temp);
+        console.log(this.dados);
+      });
+  }
+};
 </script>

@@ -96,12 +96,12 @@
 </template>
 
 <script>
-    export default {
-        name: "App",
-        data() {
-            return {
-                showMessages: false
-            };
-        }
-    }
+export default {
+  name: "App",
+  data() {
+    return {
+      showMessages: false
+    };
+  }
+};
 </script>

@@ -16,17 +16,17 @@
 </template>
 <script>
 export default {
-    props: ['show'],
-    data() {
-        return {
-            year: new Date().getFullYear()
-        };
+  props: ["show"],
+  data() {
+    return {
+      year: new Date().getFullYear()
+    };
+  },
+  methods: {
+    onChange: function () {
+      this.$emit("update:show", !this.show);
     },
-    methods: {
-        onChange: function () {
-            this.$emit('update:show', !this.show);
-        },
-    }
+  }
 };
 </script>
 <style></style>

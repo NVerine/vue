@@ -91,18 +91,18 @@ export default {
         disciplina: {id: null}
       },
       tipo: [
-        {value: 1, text: 'Text'},
-        {value: 2, text: 'Number'},
-        {value: 3, text: 'Select'},
-        {value: 4, text: 'Choose'},
-        {value: 5, text: 'Multiple choose'}
+        {value: 1, text: "Text"},
+        {value: 2, text: "Number"},
+        {value: 3, text: "Select"},
+        {value: 4, text: "Choose"},
+        {value: 5, text: "Multiple choose"}
       ],
       optModel: {
         isAnswer: false,
-        text: ''
+        text: ""
       },
       discipline: []
-    }
+    };
   },
   methods: {
     filterSelected: function (e) {
@@ -115,26 +115,26 @@ export default {
     }
   },
   mounted () {
-    // carrega informações iniciais da página
-    this.getDados('/api/questions/' + this.$route.params.id).then(() => {
-      this.dados.disciplina = this.dados.disciplina || {id: null}
+    // carrega informaï¿½ï¿½es iniciais da pï¿½gina
+    this.getDados("/api/questions/" + this.$route.params.id).then(() => {
+      this.dados.disciplina = this.dados.disciplina || {id: null};
     });
 
     // carrega lista de disciplinas
     axios
-        .get('/api/discipline/')
-        .then(response => {
-          for (const i in response.data.dados){
-            var value = response.data.dados[i].id;
-            var text = response.data.dados[i].id + '-' + response.data.dados[i].segmento + ') ' + response.data.dados[i].name;
-            this.discipline.push({value: value, text: text});
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          this.errored = true
-        })
-        .finally(() => this.loading = false);
+      .get("/api/discipline/")
+      .then(response => {
+        for (const i in response.data.dados){
+          var value = response.data.dados[i].id;
+          var text = response.data.dados[i].id + "-" + response.data.dados[i].segmento + ") " + response.data.dados[i].name;
+          this.discipline.push({value: value, text: text});
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        this.errored = true;
+      })
+      .finally(() => this.loading = false);
   }
-}
+};
 </script>

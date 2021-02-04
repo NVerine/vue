@@ -5,7 +5,7 @@ const TableFieldsMixin = {
     },
     removeArray: function (arr, pos) {
       if(arr[pos].id){
-        this.$set(arr[pos], 'exclui', true);
+        this.$set(arr[pos], "exclui", true);
       }
       else{
         arr.splice(pos, 1);

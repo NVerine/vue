@@ -57,22 +57,22 @@
 </template>
 
 <script>
-  import Field from '../../components/field';
-  import Tabela from '../../components/tabela';
-  import slct from "../../components/slct";
-  import tabLink from "../../components/tabLink";
-  import PesquisaMixin from "../../mixed/vue-mix/PesquisaMixin";
-  import VMasker from 'vanilla-masker';
-  window.VMasker = window.VMasker = VMasker;
+import Field from "../../components/field";
+import Tabela from "../../components/tabela";
+import slct from "../../components/slct";
+import tabLink from "../../components/tabLink";
+import PesquisaMixin from "../../mixed/vue-mix/PesquisaMixin";
+import VMasker from "vanilla-masker";
+window.VMasker = window.VMasker = VMasker;
 
-  export default {
-      name: "ComercialPesquisa",
-      components: { Field, Tabela, slct, tabLink },
-      mixins: [PesquisaMixin],
-      data: function(){
-          return{
-              urlApi: "/api/comercial/"
-          }
-      }
+export default {
+  name: "ComercialPesquisa",
+  components: { Field, Tabela, slct, tabLink },
+  mixins: [PesquisaMixin],
+  data: function(){
+    return{
+      urlApi: "/api/comercial/"
+    };
   }
+};
 </script>

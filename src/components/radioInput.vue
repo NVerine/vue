@@ -11,24 +11,24 @@
 </template>
 
 <script>
-    // n�o finalizado ainda
-    export default {
-        name: "radioInput",
-        props : ['nome', 'descricao', 'modelo', 'valor'],
-        data() {
-            return{
-                nomeInterno: this.nome.toLowerCase()
-            }
-        },
-        methods: {
-            onChange: function (event) {
-                if(this.valor){
-                    this.$emit('update:modelo', this.valor);
-                }
-                else{
-                    this.$emit('update:modelo', event.target.checked);
-                }
-            },
-        },
-    }
+// n�o finalizado ainda
+export default {
+  name: "radioInput",
+  props : ["nome", "descricao", "modelo", "valor"],
+  data() {
+    return{
+      nomeInterno: this.nome.toLowerCase()
+    };
+  },
+  methods: {
+    onChange: function (event) {
+      if(this.valor){
+        this.$emit("update:modelo", this.valor);
+      }
+      else{
+        this.$emit("update:modelo", event.target.checked);
+      }
+    },
+  },
+};
 </script>

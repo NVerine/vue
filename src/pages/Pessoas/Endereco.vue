@@ -42,7 +42,7 @@
 import field from "../../components/field";
 import EstadosCidades from "./EstadosCidades";
 
-import TableFieldsMixin from '../../mixed/vue-mix/TableFieldsMixin';
+import TableFieldsMixin from "../../mixed/vue-mix/TableFieldsMixin";
 import axios from "axios";
 import VMasker from "vanilla-masker";
 
@@ -50,7 +50,7 @@ export default {
   name: "Endereco",
   components: { field, EstadosCidades },
   mixins: [TableFieldsMixin],
-  props: ['enderecos', 'ativo'],
+  props: ["enderecos", "ativo"],
   data() {
     return {
       enderecoModelo: {
@@ -66,7 +66,7 @@ export default {
         numero: null,
         excluir: false
       },
-    }
+    };
   },
   methods: {
     lockSize: function (e) {
@@ -76,39 +76,39 @@ export default {
     },
     updateCep: function (e, i) {
       if (e.target.value.length === 9) {
-        const cep = e.target.value.replace('-', '');
+        const cep = e.target.value.replace("-", "");
         axios
-            .get('https://viacep.com.br/ws/' + cep + '/json/')
-            .then(response => {
-              if (response.data) {
-                for (let r in this.$store.state.pessoas.estados){
-                  if(this.$store.state.pessoas.estados[r].value == response.data.uf){
-                    this.enderecos[i].estado = this.$store.state.pessoas.estados[r].text;
-                    break;
-                  }
+          .get("https://viacep.com.br/ws/" + cep + "/json/")
+          .then(response => {
+            if (response.data) {
+              for (let r in this.$store.state.pessoas.estados){
+                if(this.$store.state.pessoas.estados[r].value == response.data.uf){
+                  this.enderecos[i].estado = this.$store.state.pessoas.estados[r].text;
+                  break;
                 }
-                this.enderecos[i].bairro = response.data.bairro;
-                this.enderecos[i].cidade = response.data.localidade;
-                this.enderecos[i].ibgeCidade = response.data.ibge;
-                this.enderecos[i].uf = response.data.uf;
-                this.enderecos[i].complemento = response.data.complemento;
-                this.enderecos[i].logradouro = response.data.logradouro;
-                this.enderecos[i].numero = response.data.unidade;
               }
-            })
-            .catch(error => {
-              console.log(error);
-              this.errored = true
-            })
-            .finally(() => this.loading = false);
+              this.enderecos[i].bairro = response.data.bairro;
+              this.enderecos[i].cidade = response.data.localidade;
+              this.enderecos[i].ibgeCidade = response.data.ibge;
+              this.enderecos[i].uf = response.data.uf;
+              this.enderecos[i].complemento = response.data.complemento;
+              this.enderecos[i].logradouro = response.data.logradouro;
+              this.enderecos[i].numero = response.data.unidade;
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            this.errored = true;
+          })
+          .finally(() => this.loading = false);
       }
     },
     getMaskedCep: function (val) {
-      if (!val) return '';
+      if (!val) return "";
       return VMasker.toPattern(val.toString(), "99999-999");
     },
   }
-}
+};
 </script>
 
 <style scoped>

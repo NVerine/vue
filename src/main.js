@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from "vue";
+import App from "./App.vue";
 
 // manter estrutura
-import axios from 'axios';
+import axios from "axios";
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {
   store.state.interfacectrl.isLoading++;
@@ -39,34 +39,34 @@ axios.interceptors.response.use(function (response) {
 
 Vue.config.productionTip = false;
 
-import 'babel-polyfill';
-import store from './store';
+import "babel-polyfill";
+import store from "./store";
 
 // import EditaMixins from "./mixed/vue-mix/EditaMixin";
-import Routes from './router';
+import Routes from "./router";
 
-import jQuery from 'jquery';
+import jQuery from "jquery";
 window.jQuery = window.$ = jQuery;
 
-import Popper from 'popper.js';
+import Popper from "popper.js";
 window.Popper = window.Popper = Popper;
 
 import moment from "moment";
 window.moment = window.moment = moment;
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './assets/css/material-dashboard.css';
-import './assets/css/demo.css';
-import './assets/css/theme.css';
-import './assets/css/spinner.css';
-import './assets/css/dumper.css';
-import './assets/css/mensagens.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./assets/css/material-dashboard.css";
+import "./assets/css/demo.css";
+import "./assets/css/theme.css";
+import "./assets/css/spinner.css";
+import "./assets/css/dumper.css";
+import "./assets/css/mensagens.css";
 
-import './mixed/bootstrap-material-design';
-import './mixed/bootstrap-notify';
-import './mixed/bootstrap-datetimepicker';
+import "./mixed/bootstrap-material-design";
+import "./mixed/bootstrap-notify";
+import "./mixed/bootstrap-datetimepicker";
 
-moment.updateLocale('pt-br', {
+moment.updateLocale("pt-br", {
   weekdaysMin : ["D", "S", "T", "Q", "Q", "S", "S"],
   weekdaysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"]
 });
@@ -76,10 +76,10 @@ new Vue({
   router: Routes,
   store: store,
   mounted: function() {
-    $('body').bootstrapMaterialDesign();
+    $("body").bootstrapMaterialDesign();
 
     //  Activate the tooltips
-    $('[rel="tooltip"]').tooltip();
+    $("[rel=\"tooltip\"]").tooltip();
 
     //    Activate bootstrap-select
     $(".select").dropdown({
@@ -87,39 +87,39 @@ new Vue({
       "optionClass": ""
     });
 
-    $('.form-control').on("focus", function() {
-      $(this).parent('.input-group').addClass("input-group-focus");
+    $(".form-control").on("focus", function() {
+      $(this).parent(".input-group").addClass("input-group-focus");
     }).on("blur", function() {
       $(this).parent(".input-group").removeClass("input-group-focus");
     });
 
     // remove class has-error for checkbox validation
-    $('input[type="checkbox"][required="true"], input[type="radio"][required="true"]').on('click', function() {
-      if ($(this).hasClass('error')) {
-        $(this).closest('div').removeClass('has-error');
+    $("input[type=\"checkbox\"][required=\"true\"], input[type=\"radio\"][required=\"true\"]").on("click", function() {
+      if ($(this).hasClass("error")) {
+        $(this).closest("div").removeClass("has-error");
       }
     });
   },
   watch: {
     $route(to) {
-      if(to.name !== "error") this.$store.commit('showMessages');
+      if(to.name !== "error") this.$store.commit("showMessages");
       if(to.name === "logout") {
         let token = localStorage.token;
         axios
-            .post('/logoff', {token: token})
-            .then(response => {
-              // para controlar multiplas conexões
-              delete localStorage.token;
-              delete localStorage.username;
-              delete localStorage.data;
-              Routes.push({ name: "login"});
-            })
-            .catch(error => {
-              this.error = error.response.data.error;
-            })
+          .post("/logoff", {token: token})
+          .then(response => {
+            // para controlar multiplas conexões
+            delete localStorage.token;
+            delete localStorage.username;
+            delete localStorage.data;
+            Routes.push({ name: "login"});
+          })
+          .catch(error => {
+            this.error = error.response.data.error;
+          });
       }
     }
   },
-}).$mount('#app')
+}).$mount("#app");
 
 // lembrete: return Promise.resolve(Math.floor((price * taxRate) / 100));

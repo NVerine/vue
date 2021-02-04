@@ -13,10 +13,10 @@
 </template>
 
 <script>
-    export default {
-        name: "tabLink",
-        props: ['txt', 'icon', 'rota', 'ativo'],
-    }
+export default {
+  name: "tabLink",
+  props: ["txt", "icon", "rota", "ativo"],
+};
 </script>
 
 <style scoped>

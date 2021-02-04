@@ -52,16 +52,16 @@ export default {
   data: function(){
     return{
       //tipoRetorno: 4
-    }
+    };
   },
   mounted () {
     // carrega informações iniciais da página
-    this.getDados('/api/ncm/' + this.$route.params.id);
+    this.getDados("/api/ncm/" + this.$route.params.id);
   },
   watch: {
-    'dados.codigo': function () {
+    "dados.codigo": function () {
       this.dados.codigo = VMasker.toPattern(this.dados.codigo.toString(), "9999.99.99");
     }
   }
-}
+};
 </script>

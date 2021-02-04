@@ -62,18 +62,18 @@ export default {
         hora_termino: null
       },
       dias_semana: [
-        {value: 0, text: 'Domingo'},
-        {value: 1, text: 'Segunda'},
-        {value: 2, text: 'Terça'},
-        {value: 3, text: 'Quarta'},
-        {value: 4, text: 'Quinta'},
-        {value: 5, text: 'Sexta'},
-        {value: 6, text: 'Sábado'}
+        {value: 0, text: "Domingo"},
+        {value: 1, text: "Segunda"},
+        {value: 2, text: "Terça"},
+        {value: 3, text: "Quarta"},
+        {value: 4, text: "Quinta"},
+        {value: 5, text: "Sexta"},
+        {value: 6, text: "Sábado"}
       ]
-    }
+    };
   },
   watch: {
-    'dados.telefone': function () {
+    "dados.telefone": function () {
       if(!this.dados.telefone) {
         return;
       }
@@ -81,5 +81,5 @@ export default {
 
     }
   }
-}
+};
 </script>
