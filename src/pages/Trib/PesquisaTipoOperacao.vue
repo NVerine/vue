@@ -3,14 +3,14 @@
     <div class="card mb-1">
       <div class="card-header row card-header card-header-info ">
         <div class="col-md-4">
-          <h4 class="card-title"><i class="mr-2 fa fa-calculator"></i>CFOP</h4>
+          <h4 class="card-title"><i class="mr-2 fa fa-calculator"></i>Tipo Operação</h4>
         </div>
         <div class="col-md-8 pl-md-3 pr-md-3 p-0">
           <div class="nav-tabs-navigation float-right">
             <div class="nav-tabs-wrapper">
               <ul class="nav nav-tabs mt-0" role="tablist">
                 <tab-link icon="fa fa-search" txt="Pesquisa" ativo="true" rota="#sd1"></tab-link>
-                <tab-link icon="fa fa-plus" txt="Inserir" :rota="{name: 'cfop_edita', params : { id : 0}}"></tab-link>
+                <tab-link icon="fa fa-plus" txt="Inserir" :rota="{name: 'tipoOperacao_edita', params : { id : 0}}"></tab-link>
               </ul>
             </div>
           </div>
@@ -23,7 +23,7 @@
               <div class="col-md-12 p-0">
                 <slct tamanho="3" class="offset-9" nome="Limite" :modelo.sync="dados.pesq_limite" :opt="limiteItens"></slct>
               </div>
-              <tabela nome="cfop" target="cfop_edita" :dados="table"></tabela>
+              <tabela nome="tipo_operacao" target="tipoOperacao_edita" :dados="table"></tabela>
               <div class="col-md-12">
                 <nav class="float-right">
                   <ul class="pagination pagination-info">
@@ -48,12 +48,12 @@ import tabLink from "../../components/tabLink";
 import PesquisaMixin from "../../mixed/vue-mix/PesquisaMixin";
 
 export default {
-  name: "PesquisaCFOP",
+  name: "PesquisaTipoOperacao",
   mixins: [PesquisaMixin],
   components: { Tabela, slct, tabLink},
   data: function(){
     return{
-      urlApi: "/api/cfop/"
+      urlApi: "/api/tipooperacao/"
     };
   },
 };

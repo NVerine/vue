@@ -36,7 +36,7 @@
               <div class="col-md-12 p-0">
                 <slct tamanho="3" class="offset-9" nome="Limite" :modelo.sync="dados.pesq_limite" :opt="limiteItens"></slct>
               </div>
-              <tabela nome="cst" target="cst_edita" :itens="itens"></tabela>
+              <tabela nome="cst" target="cst_edita" :dados="table"></tabela>
               <div class="col-md-12">
                 <nav class="float-right">
                   <ul class="pagination pagination-info">
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import Tabela from '../../components/tabela';
+import Tabela from "../../components/tabela";
 import slct from "../../components/slct";
 import field from "../../components/field";
 import tabLink from "../../components/tabLink";
@@ -68,7 +68,7 @@ export default {
   data: function(){
     return{
       urlApi: "/api/cst/"
-    }
+    };
   },
-}
+};
 </script>

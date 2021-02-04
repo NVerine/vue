@@ -3,14 +3,14 @@
     <div class="card mb-1">
       <div class="card-header row card-header card-header-info ">
         <div class="col-md-4">
-          <h4 class="card-title"><i class="mr-2 fa fa-user"></i>Pessoas</h4>
+          <h4 class="card-title"><i class="mr-2 fa fa-user"></i>produtos</h4>
         </div>
         <div class="col-md-8 pl-md-3 pr-md-3 p-0">
           <div class="nav-tabs-navigation float-right">
             <div class="nav-tabs-wrapper">
               <ul class="nav nav-tabs mt-0" role="tablist">
                 <tab-link icon="fa fa-search" txt="Pesquisa" ativo="true" rota="#sd1"></tab-link>
-                <tab-link icon="fa fa-plus" txt="Inserir" :rota="{name: 'pessoas_edita', params : { id : 0}}"></tab-link>
+                <tab-link icon="fa fa-plus" txt="Inserir" :rota="{name: 'produtos_edita', params : { id : 0}}"></tab-link>
               </ul>
             </div>
           </div>
@@ -21,10 +21,9 @@
           <div class="card-body">
             <div class="row">
               <form @submit.prevent="enviaForm" id="form_pesquisa" class="col-md-12 p-0">
-                <div class="col-md-3 p-0"></div>
-                <div class="col-md-9 p-0">
-                  <field nome="pesq_cpf_cnpj" descricao="CPF/CNPJ" :modelo.sync="dados.pesq_cpfCnpj" tamanho="4"></field>
+                <div class="col-md-12 p-0">
                   <field nome="pesq_nome" descricao="Nome" :modelo.sync="dados.pesq_nome" tamanho="8"></field>
+                  <field nome="pesq_codigo" descricao="Código" :modelo.sync="dados.codigo" tamanho="4"></field>
                   <div class="col-md-6">
                     <button type="button" class="btn btn-block btn-warning" @click="limpaForm">Limpar</button>
                   </div>
@@ -38,7 +37,7 @@
               <div class="col-md-12 p-0">
                 <slct tamanho="3" class="offset-9" nome="Limite" :modelo.sync="dados.pesq_limite" :opt="limiteItens"></slct>
               </div>
-              <tabela nome="pessoa" target="pessoas_edita" :dados="table"></tabela>
+              <tabela nome="produto" target="produtos_edita" :dados="table"></tabela>
               <div class="col-md-12">
                 <nav class="float-right">
                 <ul class="pagination pagination-info">
@@ -66,26 +65,13 @@ import VMasker from "vanilla-masker";
 window.VMasker = window.VMasker = VMasker;
 
 export default {
-  name: "PessoasPesquisa",
+  name: "produtosPesquisa",
   components: { Field, Tabela, slct, tabLink },
   mixins: [PesquisaMixin],
   data: function(){
     return{
-      urlApi: "/api/pessoa/"
+      urlApi: "/api/produto/"
     };
-  },
-  watch: {
-    "dados.pesq_cpfCnpj": function () {
-      if(!this.dados.pesq_cpfCnpj) {
-        return;
-      }
-      if(this.dados.pesq_cpfCnpj.length > 14) {
-        this.dados.pesq_cpfCnpj = VMasker.toPattern(this.dados.pesq_cpfCnpj.toString(), "99.999.999/9999-99");
-      }
-      else{
-        this.dados.pesq_cpfCnpj = VMasker.toPattern(this.dados.pesq_cpfCnpj.toString(), "999.999.999-99");
-      }
-    }
-  },
+  }
 };
 </script>

@@ -9,7 +9,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <slot></slot>
+          <slot name="body"></slot>
         </div>
         <div class="modal-footer">
           <slot name="footer">
@@ -23,12 +23,8 @@
 </template>
 
 <script>
-    export default {
-        name: "modal",
-        props: ['nome', 'titulo', 'size']
-    }
+export default {
+  name: "modal",
+  props: ["nome", "titulo", "size"]
+};
 </script>
-
-<style scoped>
-
-</style>

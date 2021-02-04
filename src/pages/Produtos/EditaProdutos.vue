@@ -28,110 +28,76 @@
           <div class="tab-pane active" id="sd1">
             <div class="card-body">
               <div class="row">
-                <div class="col-md-12">
-                  <button type="button" class="btn btn-white btn-block" data-toggle="modal" data-target="#modal_familia_produtos">{{familia_cod}} - {{ familia_text }}</button>
-                </div>
                 {{dados}}
                 <div class="col-md-12 p-0">
                   <field nome="cod_barras" descricao="Cód. barras / ISBN" :modelo.sync="dados.nome" tamanho="4"></field>
                   <field nome="Nome" :modelo.sync="dados.nome" tamanho="8"></field>
+                  <slct tamanho="9" nome="Família" :modelo.sync="familia" :opt="familia_lista"></slct>
+                  <field nome="Preço" :modelo.sync="dados.preco" tamanho="3"></field>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-md-4 float-right">
-            <button type="button" class="btn btn-block btn-success" @click="enviar('/api/produtos/')">Enviar</button>
+            <button type="button" class="btn btn-block btn-success" @click="enviar('/api/produto/')">Enviar</button>
           </div>
         </div>
       </form>
     </div>
-    <modal size="modal-lg" nome="modal_familia_produtos" titulo="Selecione a família de produtos até o último nível">
-      <div slot class="row">
-        <div v-for="(nivel, index) in familia_lista" :key="index" class="col-6">
-          <div class="p-0 col-md-12">
-            <div>
-              <label class="m-0">Nível {{ (index + 1) }}</label>
-              <radio-input v-for="(item, i) in nivel.filter((flt) => index === 0 || familiaShow(flt.codigo))"
-                           :modelo.sync="familia_selecionada" :key="i" :valor="item.codigo"
-                           :nome="'nivel_'+index" :descricao="item.codigo + ' ) ' + item.nome">
-              </radio-input>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div slot="footer">
-        <button type="button" class="btn btn-danger mr-1" data-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-success" data-dismiss="modal" @click="aplicaFamilia">Aplicar mudanças</button>
-      </div>
-    </modal>
   </div>
 </template>
 
 <script>
-    import axios from 'axios';
-    import EditaMixins from "../../mixed/vue-mix/EditaMixin";
-    import field from "../../components/field";
-    import modal from "../../components/modal";
-    import radioInput from "../../components/radioInput";
+  import axios from 'axios';
+  import EditaMixins from "../../mixed/vue-mix/EditaMixin";
+  import field from "../../components/field";
+  import slct from "@/components/slct";
+  import VMasker from "vanilla-masker";
 
-    export default {
-        name: "ProdutosEdita",
-        components: { field, modal, radioInput},
-        mixins: [EditaMixins],
-        data () {
-            return {
-                id: this.$route.params.id,
-                familia_lista: [],
-                familia_lista_original: [],
-                familia_selecionada: null,
-                familia_cod: "-",
-                familia_text: "Selecione a família de produtos"
-            }
-        },
-        methods: {
-            familiaShow: function (cod) {
-                if((!this.familia_selecionada) || (this.familia_selecionada.length+4) < cod.length) return false;
-                if(cod.length > this.familia_selecionada.length) {
-                    return cod.substring(0, this.familia_selecionada.length) === this.familia_selecionada;
-                }
-                return true;
-            },
-            aplicaFamilia: function () {
-                for (const i in this.familia_lista_original){
-                    if(this.familia_lista_original[i].codigo === this.familia_selecionada){
-                        this.familia_cod = this.familia_selecionada;
-                        this.familia_text = this.familia_lista_original[i].nome;
-                        this.dados.familia = this.familia_lista_original[i].id;
-                        return;
-                    }
-                }
-            }
-        },
-        mounted() {
-          // carrega informações iniciais da página
-          this.getDados('/api/produto/' + this.$route.params.id);
-
-
-            axios
-                .get("/api/familia_produtos/list")
-                .then(response => {
-                    let separados = [];
-                    for (const i in response.data.dados){
-                        let nivel = response.data.dados[i].codigo.split(".");
-                        if(!separados[nivel.length]){
-                            separados[nivel.length-1] = [response.data.dados[i]];
-                        }else{
-                            separados[nivel.length-1].push(response.data.dados[i]);
-                        }
-                    }
-                    this.familia_lista_original = response.data.dados;
-                    this.familia_lista = separados;
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.errored = true
-                })
-                .finally(() => this.loading = false);
+  export default {
+    name: "ProdutosEdita",
+    components: { field, slct },
+    mixins: [EditaMixins],
+    data () {
+        return {
+            id: this.$route.params.id,
+            familia_lista: [],
         }
-    }
+    },
+    mounted() {
+      // carrega informações iniciais da página
+      this.getDados('/api/produto/' + this.$route.params.id);
+      axios
+        .get("/api/familia_produtos/list")
+        .then(response => {
+          for (const i in response.data.dados){
+            let temp = {
+              value: response.data.dados[i].id,
+              text: response.data.dados[i].codigo + ") " + response.data.dados[i].nome
+            }
+            this.familia_lista.push(temp);
+          }
+        })
+        .catch(error => {
+            console.log(error);
+            this.errored = true
+        })
+        .finally(() => this.loading = false);
+    },
+    computed: {
+      familia: {
+        get(){
+          return (this.dados.familia) ? this.dados.familia.id : null;
+        },
+        set(val){
+          this.dados.familia.id = val;
+        }
+      },
+    },
+    watch: {
+      'dados.preco': function () {
+        this.dados.preco = VMasker.toMoney(this.dados.preco);
+      }
+    },
+  }
 </script>

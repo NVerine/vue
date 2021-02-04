@@ -149,6 +149,14 @@ input[type=number] {
     margin: 4px 0 ;
 }
 
+.input-table .tabc .bmd-form-group>input, .input-table .tabc .control.is-table{
+    width: 150px !important;
+}
+
+.input-table .tabc.large .bmd-form-group>input, .input-table .tabc.large .control.is-table{
+    width: 300px !important;
+}
+
 .bootstrap-datetimepicker-widget table td.today>div:before{
     display: none;
 }
@@ -580,13 +588,13 @@ table .bmd-form-group{
     margin: 0 12px;
 }
 
-table.table input, table.table select:not(.selectpicker), table.table .bootstrap-select{
-    width: 100px !important;
-}
+/*table.table input, table.table select:not(.selectpicker), table.table .bootstrap-select{*/
+/*    width: 100px !important;*/
+/*}*/
 
-table.table input.larger, table.table select:not(.selectpicker), table.table .bootstrap-select.larger{
-    width: 250px !important;
-}
+/*table.table input.larger, table.table select:not(.selectpicker), table.table .bootstrap-select.larger{*/
+/*    width: 250px !important;*/
+/*}*/
 
 .btn-group.bootstrap-select>button{
     padding-top: 12px !important;
@@ -688,22 +696,13 @@ table .bootstrap-select.btn-group .dropdown-menu{
     box-shadow: 0 -4px 18px 0 rgba(0, 0, 0, .12), 0 -7px 10px -5px rgba(0, 0, 0, .15);
 }
 
-#wrapper_galeria img{
+.wrapper-galeria img{
     max-width: 100px;
     max-height: 100px;
     margin: auto;
 }
-[single]#wrapper_galeria img{
-    max-width: 100%;
-    max-height: 290px;
-    margin: auto;
-}
 
-#wrapper_galeria > div{
-    flex-wrap: wrap;
-}
-
-#wrapper_galeria .btn{
+.wrapper-galeria .btn{
     height: 100px;
 }
 

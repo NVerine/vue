@@ -23,7 +23,7 @@
               <div class="col-md-12 p-0">
                 <slct tamanho="3" class="offset-9" nome="Limite" :modelo.sync="dados.pesq_limite" :opt="limiteItens"></slct>
               </div>
-              <tabela nome="usuarios" target="usuarios_edita" :itens="itens"></tabela>
+              <tabela nome="usuarios" target="usuarios_edita" :dados="table"></tabela>
               <div class="col-md-12">
                 <nav class="float-right">
                   <ul class="pagination pagination-info">
@@ -42,19 +42,19 @@
 </template>
 
 <script>
-    import Tabela from '../../components/tabela';
-    import slct from "../../components/slct";
-    import tabLink from "../../components/tabLink";
-    import PesquisaMixin from "../../mixed/vue-mix/PesquisaMixin";
+import Tabela from "../../components/tabela";
+import slct from "../../components/slct";
+import tabLink from "../../components/tabLink";
+import PesquisaMixin from "../../mixed/vue-mix/PesquisaMixin";
 
-    export default {
-        name: "UsuariosPesquisa",
-        mixins: [PesquisaMixin],
-        components: { Tabela, slct, tabLink},
-        data: function(){
-            return{
-                urlApi: "/api/user/"
-            }
-        },
-    }
+export default {
+  name: "UsuariosPesquisa",
+  mixins: [PesquisaMixin],
+  components: { Tabela, slct, tabLink},
+  data: function(){
+    return{
+      urlApi: "/api/user/"
+    };
+  },
+};
 </script>

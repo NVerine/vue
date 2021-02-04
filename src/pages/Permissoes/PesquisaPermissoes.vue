@@ -33,7 +33,7 @@
               <div class="col-md-12 p-0">
                 <slct tamanho="3" class="offset-9" nome="Limite" :modelo.sync="dados.pesq_limite" :opt="limiteItens"></slct>
               </div>
-              <tabela nome="permissoes" target="permissoes_edita" :itens="itens"></tabela>
+              <tabela nome="permissoes" target="permissoes_edita" :dados="table"></tabela>
               <div class="col-md-12">
                 <nav class="float-right">
                   <ul class="pagination pagination-info">
@@ -52,18 +52,18 @@
 </template>
 
 <script>
-    import Tabela from '../../components/tabela';
-    import slct from "../../components/slct";
-    import PesquisaMixin from "../../mixed/vue-mix/PesquisaMixin";
+import Tabela from "../../components/tabela";
+import slct from "../../components/slct";
+import PesquisaMixin from "../../mixed/vue-mix/PesquisaMixin";
 
-    export default {
-        name: "PermissoesPesquisa",
-        components: { Tabela, slct },
-        mixins: [PesquisaMixin],
-        data () {
-            return {
-                urlApi: "/api/permissoes/"
-            }
-        }
-    }
+export default {
+  name: "PermissoesPesquisa",
+  components: { Tabela, slct },
+  mixins: [PesquisaMixin],
+  data () {
+    return {
+      urlApi: "/api/permissoes/"
+    };
+  }
+};
 </script>

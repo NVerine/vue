@@ -1,7 +1,8 @@
 <template>
   <div class="card m-0 mb-2 p-2 p-md-0" id="dynamic_enderecos">
-    <div class="card-body">
-      <div class="row" v-for="(linha, index) in enderecos" :key="enderecos[index].id">
+    <div class="card-body p-0">
+      <div class="row mx-0 px-2" :class="(ativo == index)? 'bg-info': ''"
+           v-for="(linha, index) in enderecos" :key="enderecos[index].id">
         <div class="col-md-12 p-0">
 
           <div v-if="linha.exclui" class="btn btn-success fa fa-plus btn-list btn-sm btn-round btn-fab"
@@ -31,7 +32,7 @@
           <field prefixo="endereco" :index="index" nome="Numero" :modelo.sync="linha.numero" tamanho="2"></field>
         </div>
       </div>
-      <button type="button" class="btn btn-info fa fa-plus"
+      <button type="button" class="btn btn-info fa fa-plus m-2"
               @click="copiaArray(enderecoModelo, enderecos)" title="Inserir novo item"></button>
     </div>
   </div>
@@ -49,7 +50,7 @@ export default {
   name: "Endereco",
   components: { field, EstadosCidades },
   mixins: [TableFieldsMixin],
-  props: ['enderecos'],
+  props: ['enderecos', 'ativo'],
   data() {
     return {
       enderecoModelo: {
@@ -109,3 +110,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .bg-info{
+    background-color: rgba(25, 189, 210, 0.2)!important;
+  }
+</style>

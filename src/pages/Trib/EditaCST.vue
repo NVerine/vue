@@ -20,13 +20,10 @@
           <div class="tab-pane active" id="sd1">
             <div class="card-body">
               <div class="row">
-
-                <field leitura="true" nome="Id" :modelo.sync="dados.id" tamanho="3"></field>
-                <field tipo="number" nome="Código" :modelo.sync="dados.codigo" tamanho="3"></field>
+                <field tipo="number" descricao="Código" nome="codigo" :modelo.sync="dados.codigo" tamanho="3"></field>
                 <field nome="Nome" :modelo.sync="dados.nome" tamanho="6"></field>
                 <slct tamanho="3" nome="Tipo" :modelo.sync="dados.tipo" :opt="tipoCST"></slct>
-                <field nome="Descrição" :modelo.sync="dados.descricao" tamanho="9"></field>
-
+                <field nome="Descrição" :modelo.sync="dados.descricao" tamanho="12"></field>
               </div>
             </div>
           </div>
@@ -51,13 +48,14 @@ export default {
   mixins: [EditaMixins],
   data: function(){
     return{
-      tipoCST: [{value: 'E', text: 'Entrada'}, {value: 'S', text: 'Saída'}],
+      tipoCST: [{value: "O", text: "Origem"}, {value: "T", text: "Código da Situação Tributária (CST)"}],
+      tipoRetorno: 2
       //tipoRetorno: 4
-    }
+    };
   },
   mounted () {
     // carrega informações iniciais da página
-    this.getDados('/api/cst/' + this.$route.params.id);
+    this.getDados("/api/cst/" + this.$route.params.id);
   }
-}
+};
 </script>

@@ -23,7 +23,7 @@
               <div class="col-md-12 p-0">
                 <slct tamanho="3" class="offset-9" nome="Limite" :modelo.sync="dados.pesq_limite" :opt="limiteItens"></slct>
               </div>
-              <tabela nome="ncm" target="ncm_edita" :itens="itens"></tabela>
+              <tabela nome="ncm" target="ncm_edita" :dados="table"></tabela>
               <div class="col-md-12">
                 <nav class="float-right">
                   <ul class="pagination pagination-info">
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import Tabela from '../../components/tabela';
+import Tabela from "../../components/tabela";
 import slct from "../../components/slct";
 import tabLink from "../../components/tabLink";
 import PesquisaMixin from "../../mixed/vue-mix/PesquisaMixin";
@@ -54,7 +54,7 @@ export default {
   data: function(){
     return{
       urlApi: "/api/ncm/"
-    }
+    };
   },
-}
+};
 </script>

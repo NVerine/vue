@@ -1,5 +1,6 @@
 <template>
   <div class="row">
+    <gallery tipo="pessoas" :id="dados.id"></gallery>
     <div class="card mb-1">
       <div class="card-header row card-header card-header-info ">
         <div class="col-md-4">
@@ -63,14 +64,16 @@
           <div v-if="dados.id" class="tab-pane" id="sd2">
             <div class="card-body">
               <div class="row">
-                <endereco :enderecos.sync="dados.endereco"></endereco>
+                <slct tamanho="12" nome="Endereco principal" :modelo.sync="enderecoPrincipal" :opt="getEnderecoList"></slct>
+                <endereco :enderecos.sync="dados.endereco" :ativo="enderecoPrincipal"></endereco>
               </div>
             </div>
           </div>
           <div v-if="dados.id" class="tab-pane" id="sd3">
             <div class="card-body">
               <div class="row">
-                <contato :contatos="dados.contato"></contato>
+                <slct tamanho="12" nome="Contato principal" :modelo.sync="contatoPrincipal" :opt="getContatoList"></slct>
+                <contato :contatos="dados.contato" :ativo="contatoPrincipal"></contato>
               </div>
             </div>
           </div>
@@ -85,61 +88,113 @@
 </template>
 
 <script>
-  import slct from "../../components/slct";
-  import field from "../../components/field";
-  import ckbRadio from "../../components/ckbInput";
-  import tabLink from "../../components/tabLink";
-  import TableFieldsMixin from '../../mixed/vue-mix/TableFieldsMixin';
-  import EditaMixins from "../../mixed/vue-mix/EditaMixin";
-  import Endereco from "./Endereco";
-  import Contato from "@/pages/Pessoas/Contato";
+import slct from "../../components/slct";
+import field from "../../components/field";
+import ckbRadio from "../../components/ckbInput";
+import tabLink from "../../components/tabLink";
+import TableFieldsMixin from "../../mixed/vue-mix/TableFieldsMixin";
+import EditaMixins from "../../mixed/vue-mix/EditaMixin";
+import Endereco from "./Endereco";
+import Contato from "@/pages/Pessoas/Contato";
+import Gallery from "@/components/Gallery";
 
-  import VMasker from 'vanilla-masker';
-  window.VMasker = window.VMasker = VMasker;
+import VMasker from "vanilla-masker";
+window.VMasker = window.VMasker = VMasker;
 
-  export default {
-      name: "PessoasEdita",
-      components: { slct, field, ckbRadio, tabLink, Endereco, Contato },
-      mixins: [TableFieldsMixin, EditaMixins],
-      data () {
-          return {
-              dados: {tipo: 'F'},
-              tipoPessoa: [{value: 'F', text: 'Pessoa física'}, {value: 'J', text: 'Pessoa jurídica'}],
-          }
+export default {
+  name: "PessoasEdita",
+  components: { slct, field, ckbRadio, tabLink, Endereco, Contato, Gallery },
+  mixins: [TableFieldsMixin, EditaMixins],
+  data () {
+    return {
+      tipoPessoa: [{value: "F", text: "Pessoa física"}, {value: "J", text: "Pessoa jurídica"}],
+    };
+  },
+  methods: {
+    excluiItem: function(e, arr){
+      arr.exclui = (!arr.exclui); // essa propriedade não é reativa
+      $(e.target).toggleClass("fa-times btn-success btn-danger fa-plus");
+    }
+  },
+  computed: {
+    enderecoPrincipal: {
+      get(){
+        if(!this.dados.enderecoPrincipal || !this.dados.enderecoPrincipal.id) return null;
+        for (var r in this.dados.endereco){
+          if (this.dados.endereco[r].id == this.dados.enderecoPrincipal.id) return r;
+        }
+        return null;
       },
-      methods: {
-          excluiItem: function(e, arr){
-              arr.exclui = (!arr.exclui); // essa propriedade não é reativa
-              $(e.target).toggleClass("fa-times btn-success btn-danger fa-plus");
-          }
-      },
-      computed: {
-          getTamanho: function(){
-              if(this.dados.tipo == "F"){
-                  return 14;
-              }
-              return 18;
-          }
-      },
-      mounted: function () {
-          // carrega informações iniciais da página
-          this.getDados('/api/pessoa/' + this.$route.params.id);
-      },
-      watch: {
-          'dados.cpfCnpj': function () {
-              if(!this.dados.cpfCnpj) {
-                  return;
-              }
-              if(this.dados.tipo === "J") {
-                  this.dados.cpfCnpj = VMasker.toPattern(this.dados.cpfCnpj.toString(), "99.999.999/9999-99");
-              }
-              else{
-                  this.dados.cpfCnpj = VMasker.toPattern(this.dados.cpfCnpj.toString(), "999.999.999-99");
-              }
-          },
-          'dados.tipo': function () {
-              this.dados.cpfCnpj = "";
-          }
+      set(val){
+        this.dados.enderecoPrincipal = val;
       }
+    },
+    contatoPrincipal: {
+      get(){
+        if(!this.dados.contatoPrincipal || !this.dados.contatoPrincipal.id) return null;
+        for (var r in this.dados.contato){
+          if (this.dados.contato[r].id == this.dados.contatoPrincipal.id) return r;
+        }
+        return null;
+      },
+      set(val){
+        this.dados.contatoPrincipal = val;
+      }
+    },
+    getTamanho: function(){
+      if(this.dados.tipo == "F"){
+        return 14;
+      }
+      return 18;
+    },
+    getEnderecoList: function () {
+      if(!this.dados.endereco) return [];
+      let retorno = [];
+      for(var r in this.dados.endereco){
+        if(this.dados.endereco[r].logradouro && this.dados.endereco[r].cidade && this.dados.endereco[r].numero){
+          let txt = this.dados.endereco[r].cidade + " - " +
+                    this.dados.endereco[r].logradouro + " " +
+                    this.dados.endereco[r].numero;
+          retorno.push({value: r, text: txt});
+        }
+      }
+      return retorno;
+    },
+    getContatoList: function () {
+      if(!this.dados.contato) return [];
+      let retorno = [];
+      for(var r in this.dados.contato){
+        if(this.dados.contato[r].telefone && this.dados.contato[r].email){
+          let txt = this.dados.contato[r].email + " - " +
+                    this.dados.contato[r].telefone;
+          retorno.push({value: r, text: txt});
+        }
+      }
+      return retorno;
+    }
+  },
+  mounted: function () {
+    // carrega informações iniciais da página
+    this.getDados("/api/pessoa/" + this.$route.params.id);
+
+    if(!this.dados.id) this.$set(this.dados, "ativo", true);
+  },
+  watch: {
+    "dados.cpfCnpj": function () {
+      if(!this.dados.cpfCnpj) {
+        return;
+      }
+      if(this.dados.tipo === "J") {
+        this.dados.cpfCnpj = VMasker.toPattern(this.dados.cpfCnpj.toString(), "99.999.999/9999-99");
+      }
+      else{
+        this.dados.cpfCnpj = VMasker.toPattern(this.dados.cpfCnpj.toString(), "999.999.999-99");
+      }
+    },
+    "dados.tipo": function (a, aa) {
+      // só faz a troca se não for um loading de tela
+      if(aa) this.dados.cpfCnpj = "";
+    }
   }
+};
 </script>
