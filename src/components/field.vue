@@ -81,8 +81,6 @@ export default {
           format: "DD-MM-YYYY LT",
           icons: dateicons,
           locale: "pt-br"
-        }).blur(function () {
-          $(this).closest(".form-group").addClass("is-filled");
         });
       }
       if(tipo === "datepicker-time") {
@@ -90,8 +88,6 @@ export default {
           format: "LT",
           icons: dateicons,
           locale: "pt-br"
-        }).blur(function () {
-          $(this).closest(".form-group").addClass("is-filled");
         });
       }
       if(tipo === "datepicker-date") {
@@ -99,10 +95,14 @@ export default {
           format: "DD-MM-YYYY",
           icons: dateicons,
           locale: "pt-br"
-        }).blur(function () {
-          $(this).closest(".form-group").addClass("is-filled");
         });
       }
+      
+      $(nome).on("dp.change", function(e){
+        ele.value = e.target.value;
+      }).blur(function () {
+        $(this).closest(".form-group").addClass("is-filled");
+      });
     },
     getNome: function () {
       let str = "";

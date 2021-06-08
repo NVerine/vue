@@ -2,7 +2,7 @@
   <div v-if="getItens.length > 0" :id="nome" class="card-body" style="overflow: hidden;">
     <div class="table-responsive" style="width: 100%;">
       <table :id="'tabela_'+nome" class="table table-striped mb-1">
-        <thead v-if="!dados.headers">
+        <thead v-if="!dados.headers || dados.headers.length == 0">
           <th>&nbsp;</th>
           <th v-for="(i, header) in getItens[0]" :key="header">
             {{ header | capitalizar }}
@@ -53,7 +53,7 @@ export default {
     },
     getTr(row){
       let td = [];
-      if(!this.dados.headers){
+      if(!this.dados.headers || this.dados.headers.length == 0){
         for (let r in row) {
           td.push(this.getTd(row, r));
         }

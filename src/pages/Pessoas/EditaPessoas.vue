@@ -4,7 +4,7 @@
     <div class="card mb-1">
       <div class="card-header row card-header card-header-info ">
         <div class="col-md-4">
-          <h4 class="card-title">Pessoa #{{ dados.id }}</h4></div>
+          <h4 class="card-title"><i class="mr-2 fa fa-pencil"></i>Pessoa #{{ dados.id }}</h4></div>
         <div class="col-md-8 pl-md-3 pr-md-3 p-0">
           <div class="nav-tabs-navigation pull-right">
             <div class="nav-tabs-wrapper">
@@ -22,7 +22,7 @@
           </div>
         </div>
       </div>
-      <form name="pessoa" id="edita_pessoa" class="col-md-12 px-md-3 p-0">
+      <form name="pessoa" id="edita_pessoa" class="col-md-12 px-md-3 p-0 pb-2">
         <div class="tab-content tab-space">
           <div class="tab-pane active" id="sd1">
             <div class="card-body">
@@ -53,7 +53,7 @@
                     <div class="control">
                       <div class="form-group bmd-form-group">
                         <label class="bmd-label-floating label-select" for="campo_editor_conteudo">Observações</label>
-                        <textarea class="form-control " name="editor_conteudo" id="campo_editor_conteudo"></textarea>
+                        <textarea class="form-control " name="editor_conteudo" id="campo_editor_conteudo" v-model="dados.observacoes"></textarea>
                       </div>
                     </div>
                   </div>
@@ -79,7 +79,7 @@
           </div>
           <div class="col-md-4 float-right">
             <button type="button" class="btn btn-block btn-success"
-                    @click="enviar('/api/pessoa/')">Enviar</button>
+                    @click="customEnviar()">Enviar</button>
           </div>
         </div>
       </form>
@@ -108,17 +108,25 @@ export default {
   data () {
     return {
       tipoPessoa: [{value: "F", text: "Pessoa física"}, {value: "J", text: "Pessoa jurídica"}],
+      idEnderecoPrincipal: null,
+      idContatoPrincipal: null,
     };
   },
   methods: {
     excluiItem: function(e, arr){
       arr.exclui = (!arr.exclui); // essa propriedade não é reativa
       $(e.target).toggleClass("fa-times btn-success btn-danger fa-plus");
+    },
+    customEnviar: function () {
+      this.dados.enderecoPrincipal = this.idEnderecoPrincipal;
+      this.dados.contatoPrincipal = this.idContatoPrincipal;
+      this.enviar("/api/pessoa/");
     }
   },
   computed: {
     enderecoPrincipal: {
       get(){
+        if(this.idEnderecoPrincipal) return this.idEnderecoPrincipal;
         if(!this.dados.enderecoPrincipal || !this.dados.enderecoPrincipal.id) return null;
         for (var r in this.dados.endereco){
           if (this.dados.endereco[r].id == this.dados.enderecoPrincipal.id) return r;
@@ -126,11 +134,12 @@ export default {
         return null;
       },
       set(val){
-        this.dados.enderecoPrincipal = val;
+        this.idEnderecoPrincipal = val;
       }
     },
     contatoPrincipal: {
       get(){
+        if(this.idContatoPrincipal) return this.idContatoPrincipal;
         if(!this.dados.contatoPrincipal || !this.dados.contatoPrincipal.id) return null;
         for (var r in this.dados.contato){
           if (this.dados.contato[r].id == this.dados.contatoPrincipal.id) return r;
@@ -138,7 +147,7 @@ export default {
         return null;
       },
       set(val){
-        this.dados.contatoPrincipal = val;
+        this.idContatoPrincipal = val;
       }
     },
     getTamanho: function(){

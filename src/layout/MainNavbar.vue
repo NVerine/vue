@@ -7,14 +7,14 @@
         </router-link>
       </div>
       <form class="navbar-form px-0">
-				<span class="bmd-form-group">
-					<div class="input-group no-border">
-						<input id="live-search" type="text" value="" class="form-control ui-autocomplete-input" placeholder="Pesquisar..." autocomplete="off" >
-							<button type="submit" class="btn btn-info btn-round btn-just-icon d-none d-sm-block" >
-								<i class="fa fa-search"></i>
-							</button>
-						</div>
-					</span>
+        <span class="bmd-form-group">
+          <div class="input-group no-border">
+            <input id="live-search" type="text" value="" class="form-control ui-autocomplete-input" placeholder="Pesquisar..." autocomplete="off" >
+              <button type="submit" class="btn btn-info btn-round btn-just-icon d-none d-sm-block" >
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </span>
       </form>
       <div id="navigation" class="my-2 my-md-0" >
         <ul class="navbar-nav mt-0 flex-column flex-sm-row">
@@ -43,9 +43,9 @@
                   <strong>Atraso:</strong> Google analytics/ADS
                 </p>
                 <p class="m-0 mt-2">
-										<span class="misterio">
-											<i class="fa fa-calendar-o"></i>
-										</span>
+                  <span class="misterio">
+                    <i class="fa fa-calendar-o"></i>
+                  </span>
                 </p>
               </a>
               <a class="dropdown-item py-1 d-block px-2" href="?pagina=suporte_chamados&amp;pesq_chamado=143" >
@@ -53,9 +53,9 @@
                   <strong>Atraso:</strong> Projetar reestruturação do Portal - Oficinas
                 </p>
                 <p class="m-0 mt-2">
-										<span class="misterio">
-											<i class="fa fa-calendar-o"></i>
-										</span>
+                  <span class="misterio">
+                    <i class="fa fa-calendar-o"></i>
+                  </span>
                 </p>
               </a>
               <a class="dropdown-item py-1 d-block px-2" href="?pagina=suporte_chamados&amp;pesq_chamado=161" >
@@ -63,9 +63,9 @@
                   <strong>Atraso:</strong> Permissões de visualizações - EDUCACIONAL
                 </p>
                 <p class="m-0 mt-2">
-										<span class="misterio">
-											<i class="fa fa-calendar-o"></i>
-										</span>
+                  <span class="misterio">
+                    <i class="fa fa-calendar-o"></i>
+                  </span>
                 </p>
               </a>
             </div>
@@ -79,13 +79,14 @@
                 <img src="uploads/galeria/teste/usuario/Anotacao_2020-01-09_115139.png">
               </h4>
               <div class="menu-body">
-                <h5 onclick="Tools.redirect('?pagina=perfil&amp;pesq_num=0', false, true)" class="menu-header" > Usuário Padrão
-                  <span class="misterio">Administrador</span>
-                </h5>
+                <router-link class="menu-header no-decoration" :to="{name: 'perfil_edita'}">
+                  {{ usuario_nome }}
+                  <span class="misterio d-block">{{ grupo }}</span>
+                </router-link>
               </div>
               <div class="dropdown-divider"></div>
               <div class="menu-body">
-                <router-link class="menu-header" :to="{name: 'logout'}"> Sair </router-link>
+                <router-link class="menu-header no-decoration" :to="{name: 'logout'}"> Sair </router-link>
               </div>
             </div>
           </li>
@@ -98,6 +99,24 @@
 <script>
 import MobileMenu from "./MobileMenu";
 export default {
-  components: { MobileMenu }
+  components: { MobileMenu },
+  data: function () {
+    return {
+      usuario_nome: localStorage.usuario_nome,
+      grupo: localStorage.grupo
+    };
+  }
 };
 </script>
+
+<style scoped>
+.no-decoration{
+  display: block;
+  color: #505050;
+}
+.no-decoration:hover{
+  background-color: transparent;
+  color: #505050;
+  box-shadow: none !important;
+}
+</style>

@@ -16,8 +16,8 @@ const EditaMixins = {
       return axios
         .get(rota)
         .then(response => {
-          if(response.data.dados){
-            this.dados = response.data.dados;
+          if(response.data.dados.items){
+            this.dados = response.data.dados.items;
           }
           if(response.data.notify.length > 0) {
             let isErrored = false;

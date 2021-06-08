@@ -76,8 +76,14 @@ export default {
         .then(response => {
           if(response.data.dados.token){
             localStorage.token = response.data.dados.token;
+            localStorage.data = response.data.dados.date;
+            localStorage.usuario_nome = response.data.dados.usuario_nome;
+            localStorage.usuario_id = response.data.dados.usuario_id;
             localStorage.username = response.data.dados.username;
-            localStorage.data = response.data.dados.data;
+            localStorage.grupo = response.data.dados.grupo;
+            localStorage.foto = response.data.dados.foto;
+            localStorage.filial_nome = response.data.dados.filial_nome;
+            localStorage.filial_id = response.data.dados.filial_id;
             this.$router.push({ name: "dashboard"});
           }
         })

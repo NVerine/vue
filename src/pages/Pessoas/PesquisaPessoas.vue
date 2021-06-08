@@ -3,7 +3,7 @@
     <div class="card mb-1">
       <div class="card-header row card-header card-header-info ">
         <div class="col-md-4">
-          <h4 class="card-title"><i class="mr-2 fa fa-user"></i>Pessoas</h4>
+          <h4 class="card-title"><i class="mr-2 fa fa-pencil"></i>Pessoas</h4>
         </div>
         <div class="col-md-8 pl-md-3 pr-md-3 p-0">
           <div class="nav-tabs-navigation float-right">
@@ -21,10 +21,21 @@
           <div class="card-body">
             <div class="row">
               <form @submit.prevent="enviaForm" id="form_pesquisa" class="col-md-12 p-0">
-                <div class="col-md-3 p-0"></div>
-                <div class="col-md-9 p-0">
+                <div class="col-md-3 col-sm-6 p-0 pb-3">
+                  <div class="mt-3 col-md-12">
+                    <div>
+                      <label class="m-0">Funções</label>
+                      <ckb-input nome="Ativo" :modelo.sync="dados.pesq_ativo"></ckb-input>
+                      <ckb-input nome="Cliente" :modelo.sync="dados.pesq_cliente"></ckb-input>
+                      <ckb-input nome="Empresa" :modelo.sync="dados.pesq_empresa"></ckb-input>
+                      <ckb-input nome="Fornecedor" :modelo.sync="dados.pesq_fornecedor"></ckb-input>
+                      <ckb-input nome="Funcionario" :modelo.sync="dados.pesq_funcionario"></ckb-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-9 col-sm-6 p-0">
                   <field nome="pesq_cpf_cnpj" descricao="CPF/CNPJ" :modelo.sync="dados.pesq_cpfCnpj" tamanho="4"></field>
-                  <field nome="pesq_nome" descricao="Nome" :modelo.sync="dados.pesq_nome" tamanho="8"></field>
+                  <field nome="pesq_pessoa_nome" descricao="Nome" :modelo.sync="dados.pesq_nome" tamanho="8"></field>
                   <div class="col-md-6">
                     <button type="button" class="btn btn-block btn-warning" @click="limpaForm">Limpar</button>
                   </div>
@@ -62,12 +73,13 @@ import Tabela from "../../components/tabela";
 import slct from "../../components/slct";
 import tabLink from "../../components/tabLink";
 import PesquisaMixin from "../../mixed/vue-mix/PesquisaMixin";
+import ckbInput from "@/components/ckbInput";
 import VMasker from "vanilla-masker";
 window.VMasker = window.VMasker = VMasker;
 
 export default {
   name: "PessoasPesquisa",
-  components: { Field, Tabela, slct, tabLink },
+  components: { Field, Tabela, slct, tabLink, ckbInput },
   mixins: [PesquisaMixin],
   data: function(){
     return{

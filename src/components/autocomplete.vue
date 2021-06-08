@@ -47,7 +47,7 @@ export default{
       // checa se o autcomplete esta com focus
       if($("#campo_"+this.getNome()).is(":focus")){
         axios
-          .get(this.url ,{params: { [this.param]: val }})
+          .get(this.url ,{params: { [this.param]: val , pesq_limite: 10}})
           .then(response => {
             this.results = response.data;
           });

@@ -3,7 +3,8 @@
     <div class="card mb-1">
       <div class="card-header row card-header card-header-info ">
         <div class="col-md-4">
-          <h4 class="card-title">Filial #{{ dados.id }}</h4></div>
+          <h4 class="card-title"><i class="mr-2 fa fa-pencil"></i> Filial #{{ dados.id }}</h4>
+        </div>
         <div class="col-md-8 pl-md-3 pr-md-3 p-0">
           <div class="nav-tabs-navigation pull-right">
             <div class="nav-tabs-wrapper">
@@ -17,7 +18,7 @@
           </div>
         </div>
       </div>
-      <form name="filial" id="edita_filial" class="col-md-12 px-md-3 p-0">
+      <form name="filial" id="edita_filial" class="col-md-12 px-md-3 p-0 pb-2">
         <div class="tab-content tab-space">
           <div class="tab-pane active" id="sd1">
             <div class="card-body">
@@ -30,7 +31,7 @@
                   <field descricao="Pula NF" nome="pulanf" :modelo.sync="dados.pulaNf" tamanho="6"></field>
 
                   <div class="col-md-12 px-0">
-                    <autocomplete nome="Pessoa" :modelo.sync="dados.pessoa.nome" :modelo2.sync="dados.pessoa.id"
+                    <autocomplete nome="Pessoa" :modelo.sync="pessoa.nome" :modelo2.sync="pessoa.id"
                                   url="/api/pessoa/autocomplete/nome" tamanho="12" param="pesq_nome"></autocomplete>
                   </div>
                 </div>
@@ -39,7 +40,7 @@
           </div>
           <div class="col-md-4 float-right">
             <button type="button" class="btn btn-block btn-success"
-                    @click="enviar('/api/filial/')">Enviar</button>
+                    @click="customEnviar()">Enviar</button>
           </div>
         </div>
       </form>
@@ -67,16 +68,22 @@ export default {
         {value: 1, text: "Simples Nacional"},
         {value: 2, text: "Simples Nacional - Excesso de sublimite"},
         {value: 3, text: "Regime Normal"}
-      ]
+      ],
+      pessoa: {id: null, nome: null},
     };
   },
   mounted: function () {
     // carrega informações iniciais da página
-    this.getDados("/api/filial/" + this.$route.params.id);
+    this.getDados("/api/filial/" + this.$route.params.id).then(() => {
+      if (this.dados.socio) {
+        this.$set(this, "pessoa", {id: this.dados.socio.id, nome: this.dados.socio.nome});
+      }
+    });
   },
-  created() {
-    if(!this.dados.pessoa){
-      this.$set(this.dados, "pessoa", {id: null, nome: null});
+  methods: {
+    customEnviar: function () {
+      this.dados.pessoa = this.pessoa;
+      this.enviar("/api/filial/");
     }
   }
 };

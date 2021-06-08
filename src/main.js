@@ -112,6 +112,13 @@ new Vue({
             delete localStorage.token;
             delete localStorage.username;
             delete localStorage.data;
+            delete localStorage.usuario_nome;
+            delete localStorage.usuario_id;
+            delete localStorage.grupo;
+            delete localStorage.foto;
+            delete localStorage.filial_nome;
+            delete localStorage.filial_id;
+
             Routes.push({ name: "login"});
           })
           .catch(error => {

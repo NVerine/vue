@@ -37,6 +37,7 @@ import EditaFilial from "@/pages/Filial/EditaFilial";
 import PesquisaFilial from "@/pages/Filial/PesquisaFilial";
 import EditaComercial from "@/pages/Comercial/EditaComercial";
 import PesquisaComercial from "@/pages/Comercial/PesquisaComercial";
+import EditaPerfil from "./pages/Usuarios/EditaPerfil";
 
 Vue.use(Router);
 
@@ -110,6 +111,14 @@ const private_routes = [
   {path:"/p/usuarios", name:"usuarios_pesquisa",
     components: {
       default: UsuariosPesquisa,
+      header: MainNavbar,
+      menu: MainMenu,
+      footer: MainFooter
+    }
+  },
+  {path:"/p/perfil", name:"perfil_edita",
+    components: {
+      default: EditaPerfil,
       header: MainNavbar,
       menu: MainMenu,
       footer: MainFooter

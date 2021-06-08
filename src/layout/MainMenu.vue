@@ -19,7 +19,7 @@
             </a>
             <div class="collapse" :id="'plus'+i">
               <ul class="nav">
-                <li v-for="(c, index) in filteredChildren(item)" :key="index" class="nav-item">
+                <li v-for="(c, index) in item.children" :key="index" class="nav-item">
                   <router-link class="nav-link" :to="{name: index}">
                     <span class="sidebar-mini"> {{ c.nome.substring(0,1) }} </span>
                     <span class="sidebar-normal"> {{ c.nome }} </span>

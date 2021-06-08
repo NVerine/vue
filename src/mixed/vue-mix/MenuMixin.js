@@ -1,7 +1,10 @@
+import VMasker from "vanilla-masker";
+
 const MenuMixin = {
   data: function () {
     return {
       itens: {
+        //daqui pra baixo estão ignorados
         cadastro: {
           nome: "cadastro", icon: "fa fa-pencil", children: {
             pessoas_pesquisa: {
@@ -77,19 +80,36 @@ const MenuMixin = {
             }
           }
         }
+        //daqui pra cima estão ignorados
       }
     };
   },
   methods: {
-    filteredChildren: function (item) {
-      let temp = {};
-      for (const i in item.children){
-        if(this.$store.state.permissions.permissoes[item.children[i].rotaApi]){
-          this.$set(temp, i, item.children[i]);
-        }
-      }
-      return temp;
-    }
+    montaMenu: function () {
+      const menu = {
+        cadastro: { nome: "cadastro", icon: "fa fa-pencil", children: {}},
+        UAC: { nome: "UAC", icon: "fa fa-user", children: {}}
+      };
+
+      //cadastro
+      if (this.$store.state.permissions.permissoes["api_pessoa_index"])
+        menu.cadastro.children["pessoas_pesquisa"] = {nome: "Pessoas", rotasVue: ["pessoas_edita"]};
+      if (this.$store.state.permissions.permissoes["api_filial_index"])
+        menu.cadastro.children["filial_pesquisa"] = {nome: "Filial", rotasVue: ["filial_edita"]};
+
+      //UAC
+      if (this.$store.state.permissions.permissoes["api_user_index"])
+        menu.UAC.children["usuarios_pesquisa"] = {nome: "Usuários", rotasVue: ["usuarios_edita"]};
+      if (this.$store.state.permissions.permissoes["api_permissoes_index"])
+        menu.UAC.children["permissoes_pesquisa"] = {nome: "Permissões", rotasVue: ["permissoes_edita"]};
+
+      this.$set(this, "itens", menu);
+    },
+  },
+  watch: {
+    "$store.state.permissions.permissoes": function () {
+      this.montaMenu();
+    },
   }
 };
 
