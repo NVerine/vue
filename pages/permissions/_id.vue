@@ -1,5 +1,5 @@
 <template>
-  <DefaultForm :title="$t('person')" icon="fa fa-user" submitAction="person/edit/submit">
+  <DefaultForm :title="$t('permissions')" icon="fa fa-user" submitAction="edits/permissions/submit">
     <template slot="tab-link">
       <ul class="nav nav-tabs mt-0">
         <tab-link
@@ -8,21 +8,9 @@
             index="1"
         ></tab-link>
         <tab-link
-            v-if="id > 0"
-            icon="far fa-map"
-            :title="$t('address') | capitalize"
-            index="2"
-        ></tab-link>
-        <tab-link
-            v-if="id > 0"
-            icon="far fa-phone"
-            :title="$t('contact') | capitalize"
-            index="3"
-        ></tab-link>
-        <tab-link
             icon="fa fa-undo"
             :title="$t('return') | capitalize"
-            link="person"
+            link="permissions"
         ></tab-link>
       </ul>
     </template>
@@ -31,47 +19,25 @@
         <div class="card-body">
           <div class="row">
             <div class="col-12 p-0">
-              <div class="col-3">
-                <slct
-                    description="Tipo"
-                    :opt="typePersonOpt"
-                    :model.sync="typePerson"
-                >
-                </slct>
-              </div>
-              <div class="col-3">
-                <base-input label="Document" v-model="nickname"></base-input>
-              </div>
-
-              <div class="col-6">
+              <div class="col-12">
                 <base-input label="Full name" v-model="name"></base-input>
-              </div>
-              <div class="col-8">
-                <base-input label="Nickname" v-model="nickname"></base-input>
-              </div>
-              <div class="col-4">
-                <base-input label="Birth date" v-model="birth_date"></base-input>
-              </div>
-              <div class="mt-3 col-md-12" id="wrapper_editor_conteudo">
-                <div class="control">
-                  <div class="form-group bmd-form-group">
-                    <label class="bmd-label-floating label-select" for="campo_editor_conteudo">Observações</label>
-                    <textarea class="form-control " id="campo_editor_conteudo" v-model="observations"></textarea>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
-        </div>
-      </tab-panel>
-      <tab-panel v-if="id > 0" index="2">
-        <div class="card-body">
-          <Address></Address>
-        </div>
-      </tab-panel>
-      <tab-panel v-if="id > 0" index="3">
-        <div class="card-body">
-          <Contact></Contact>
+          <div class="row">
+            <div class="col-12 p-0">
+              <div class="col-12">
+                <base-checkbox
+                    class="col-12 col-sm-6 col-md-4 m-0" v-for="(row, index) in routes"
+                    :checked="$store.state.edits.permissions.checkeds.indexOf(index) > -1"
+                    @input="$store.dispatch('edits/permissions/toggleChecked', index)"
+                    :name="index"
+                    :key="index">
+                  {{ index }}
+                </base-checkbox>
+              </div>
+            </div>
+          </div>
         </div>
       </tab-panel>
     </template>
@@ -81,36 +47,30 @@
 <script>
 import DefaultForm from "~/components/layout/DefaultForm";
 import EditMixin from "~/mixed/EditMixin";
-import {mapFields} from 'vuex-map-fields';
+import {mapFields, mapMultiRowFields} from 'vuex-map-fields';
 import TabLink from "~/components/Cards/TabLink";
 import TabPanel from "~/components/Cards/TabPanel";
 import Address from "~/components/Pages/Address";
 import Contact from "~/components/Pages/Contact";
 
 export default {
-  name: "Person-edit",
+  name: "Permissions-edit",
   components: { DefaultForm, Address, TabLink, TabPanel, Contact},
   mixins: [EditMixin],
   data: function () {
     return {
       module: 'general',
-      title: 'person',
-      typePersonOpt: [
-        {value: "I", text: "Individuals"},
-        {value: "C", text: "Companies"}
-      ]
+      title: 'permissions',
+      agree: false
     };
   },
   beforeMount() {
-    this.$store.dispatch("person/edit/getData", this.id);
+    this.$store.dispatch("edits/permissions/getData", this.id);
   },
   computed: {
-    ...mapFields('person/edit', [
-      'data.nickname',
+    ...mapFields('edits/permissions', [
       'data.name',
-      'data.birth_date',
-      'data.typePerson',
-      'data.observations'
+      'data.routes',
     ]),
   },
 };

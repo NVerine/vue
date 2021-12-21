@@ -1,18 +1,9 @@
 <template>
   <DefaultIndexSearch
-      :title="$t('person') | capitalize"
+      :title="$t('permissions') | capitalize"
       icon="fa fa-user"
-      form-link="/person"
+      form-link="/permissions"
   >
-    <template slot="formFields">
-      <div class="col-6">
-        <base-input label="CPF/CNPJ" v-model="data.doc"></base-input>
-      </div>
-      <div class="col-6">
-        <base-input :label="$t('name') | capitalize" v-model="data.name"></base-input>
-      </div>
-
-    </template>
   </DefaultIndexSearch>
 </template>
 
@@ -21,12 +12,12 @@ import SearchMixin from "~/mixed/SearchMixin";
 
 export default {
   scrollToTop: true,
-  name: "Person-index",
+  name: "Permissions-index",
   mixins: [SearchMixin],
   data: function () {
     return {
-      urlApi: '/api/person/',
-      title: 'person',
+      urlApi: '/api/permissions/',
+      title: 'permissions',
       module: 'general'
     }
   },
