@@ -4,7 +4,7 @@
       <div class="col-12">
         <slct
             description="Endereço principal"
-            :opt="$store.getters['person/edit/getContactList']"
+            :opt="$store.getters['edits/person/getContactList']"
             v-model="mainContact"
         >
         </slct>
@@ -19,7 +19,7 @@
                      @click="row.exclude = null" title="Manter item">
                 </div>
                 <div v-else class="btn btn-danger fa fa-times btn-list btn-sm btn-round btn-fab"
-                     @click="$store.dispatch('person/edit/delContact', index)" title="Excluir item">
+                     @click="$store.dispatch('edits/person/delContact', index)" title="Excluir item">
                 </div>
 
                 <div class="col-4">
@@ -34,7 +34,7 @@
               </div>
             </div>
             <button type="button" class="btn btn-info fa fa-plus m-2"
-                    @click="$store.dispatch('person/edit/newContact')" title="Inserir novo item"></button>
+                    @click="$store.dispatch('edits/person/newContact')" title="Inserir novo item"></button>
           </template>
         </card>
 
@@ -51,10 +51,10 @@ export default {
   name: "Contact",
   components: {Card},
   computed: {
-    ...mapMultiRowFields('person/edit', {
+    ...mapMultiRowFields('edits/person', {
       contact: 'data.contact',
     }),
-    ...mapFields('person/edit', {
+    ...mapFields('edits/person', {
       mainContact: 'data.mainContactIndex'
     }),
   }

@@ -148,7 +148,7 @@ export const actions = {
   },
   getData({commit, dispatch, rootState}, id) {
     commit("setId", id);
-    return dispatch("edit/getData", {url: rootState.person.edit.urlApi, id: rootState.person.edit.id}, {root: true}).then((r) => {
+    return dispatch("edit/getData", {url: rootState.edits.person.urlApi, id: rootState.edits.person.id}, {root: true}).then((r) => {
       if (r) dispatch("setData", r);
     });
   },

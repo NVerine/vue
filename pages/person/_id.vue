@@ -1,5 +1,5 @@
 <template>
-  <DefaultForm :title="$t('person')" icon="fa fa-user" submitAction="person/edit/submit">
+  <DefaultForm :title="$t('person')" icon="fa fa-user" submitAction="edits/person/submit">
     <template slot="tab-link">
       <ul class="nav nav-tabs mt-0">
         <tab-link
@@ -102,10 +102,10 @@ export default {
     };
   },
   beforeMount() {
-    this.$store.dispatch("person/edit/getData", this.id);
+    this.$store.dispatch("edits/person/getData", this.id);
   },
   computed: {
-    ...mapFields('person/edit', [
+    ...mapFields('edits/person', [
       'data.nickname',
       'data.name',
       'data.birth_date',

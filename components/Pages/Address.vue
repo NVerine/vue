@@ -4,7 +4,7 @@
       <div class="col-12">
         <slct
             description="Endereço principal"
-            :opt="$store.getters['person/edit/getAddressList']"
+            :opt="$store.getters['edits/person/getAddressList']"
             v-model="mainAdress"
         >
         </slct>
@@ -17,7 +17,7 @@
                 <div v-if="row.exclude" class="btn btn-success fa fa-plus btn-list btn-sm btn-round btn-fab"
                      @click="row.exclude = null" title="Manter item"></div>
                 <div v-else class="btn btn-danger fa fa-times btn-list btn-sm btn-round btn-fab"
-                     @click="$store.dispatch('person/edit/dellAddress', index)" title="Excluir item"></div>
+                     @click="$store.dispatch('edits/person/dellAddress', index)" title="Excluir item"></div>
 
                 <div class="col-6">
                   <base-input label="district" v-model="row.district"></base-input>
@@ -40,7 +40,7 @@
               </div>
             </div>
             <button type="button" class="btn btn-info fa fa-plus m-2"
-                    @click="$store.dispatch('person/edit/newAddress')" title="Inserir novo item"></button>
+                    @click="$store.dispatch('edits/person/newAddress')" title="Inserir novo item"></button>
           </template>
         </card>
 
@@ -57,10 +57,10 @@ export default {
   name: "Address",
   components: { Card },
   computed: {
-    ...mapMultiRowFields('person/edit', {
+    ...mapMultiRowFields('edits/person', {
       address: 'data.address',
     }),
-    ...mapFields('person/edit', {
+    ...mapFields('edits/person', {
       mainAdress: 'data.mainAddressIndex'
     }),
   }
